@@ -69,4 +69,4 @@
                     :filter level)))
   (log4cl-extras/config:setup
    (list :level :debug
-         :appenders appenders)))
+         :appenders *core-appenders*)))
