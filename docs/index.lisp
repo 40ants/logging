@@ -115,9 +115,9 @@ and for backend mode:
 
 ```json
 % ./logging-example --backend
-{"fields":{"logger":"40ants-logging-example/cli","func":"run-as-backend","file":"cli.lisp","request-id":"120002"},"level":"INFO","message":"Running as a backend.","timestamp":"2023-03-05T10:46:12.812570Z"}
-{"fields":{"logger":"40ants-logging-example/cli","func":"run-backend-loop","file":"cli.lisp","request-id":"120002","iteration":0},"level":"INFO","message":"Sleeping 15 seconds","timestamp":"2023-03-05T10:46:12.822253Z"}
-{"fields":{"logger":"40ants-logging-example/cli","func":"run-backend-loop","file":"cli.lisp","request-id":"120002","iteration":1},"level":"INFO","message":"Sleeping 15 seconds","timestamp":"2023-03-05T10:46:27.822530Z"}
+{\"fields\":{\"logger\":\"40ants-logging-example/cli\",\"func\":\"run-as-backend\",\"file\":\"cli.lisp\",\"request-id\":\"120002\"},\"level\":\"INFO\",\"message\":\"Running as a backend.\",\"timestamp\":\"2023-03-05T10:46:12.812570Z\"}
+{\"fields\":{\"logger\":\"40ants-logging-example/cli\",\"func\":\"run-backend-loop\",\"file\":\"cli.lisp\",\"request-id\":\"120002\",\"iteration\":0},\"level\":\"INFO\",\"message\":\"Sleeping 15 seconds\",\"timestamp\":\"2023-03-05T10:46:12.822253Z\"}
+{\"fields\":{\"logger\":\"40ants-logging-example/cli\",\"func\":\"run-backend-loop\",\"file\":\"cli.lisp\",\"request-id\":\"120002\",\"iteration\":1},\"level\":\"INFO\",\"message\":\"Sleeping 15 seconds\",\"timestamp\":\"2023-03-05T10:46:27.822530Z\"}
 ...
 ```
 ")
