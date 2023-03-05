@@ -75,6 +75,7 @@ You can install this library from Quicklisp, but you want to receive updates qui
                                    "JSON"
                                    "LOG4CL"
                                    "STDOUT"
+                                   "LOG:CONFIG"
                                    "40A"))
   "
 This small library encapsulates a logging approach for all 40Ants projects. It provides
