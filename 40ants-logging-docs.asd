@@ -5,7 +5,7 @@
   :description "Provides documentation for 40ants-logging."
   :source-control (:git "https://github.com/40ants/logging")
   :bug-tracker "https://github.com/40ants/logging/issues"
-  :homepage "https://40ants.com/logging"
+  :homepage "https://40ants.com/logging/"
   :pathname "docs"
   :depends-on ("40ants-logging"
                "40ants-logging-docs/index"))
