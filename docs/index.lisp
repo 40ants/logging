@@ -121,9 +121,38 @@ and for backend mode:
 {\"fields\":{\"logger\":\"40ants-logging-example/cli\",\"func\":\"run-backend-loop\",\"file\":\"cli.lisp\",\"request-id\":\"120002\",\"iteration\":1},\"level\":\"INFO\",\"message\":\"Sleeping 15 seconds\",\"timestamp\":\"2023-03-05T10:46:27.822530Z\"}
 ...
 ```
+
+If you are using 40ANTS-SLYNK system to setup a Slynk server, then 40ANTS-LOGGING:SETUP-FOR-REPL function will be called automatically on connect to the repl. You can observe logging configuration by like this:
+
+```
+CL-USER> (log:config)
+ROOT, DEBUG
+|
++-(1)-#<STABLE-THIS-CONSOLE-APPENDER {10055B18F3}>
+|     with #<JSON-LAYOUT {10055B6AD3}>
+|     :immediate-flush NIL
+|     :flush-interval  1
+|     :stream-owner    NIL
+|     :stream          #<SB-SYS:FD-STREAM for \"standard output\" {1001D016C3}>
+|     :message-count   0
+|     :filter          :INFO
+|
++-(2)-#<STABLE-THIS-CONSOLE-APPENDER {10023FB1D3}>
+      with #<PLAIN-LAYOUT {10055B46D3}>
+      :immediate-flush NIL
+      :flush-interval  1
+      :stream-owner    NIL
+      :stream          #<SLYNK-GRAY::SLY-OUTPUT-STREAM {1001D00153}>
+      :message-count   0
+      :filter          :WARN
+```
+
+To change log level only for the REPL, call `(40ants-logging:setup-for-repl :level :warn)` function. If you will change log level via standard function of LOG4CL: `(log:config :warn)`, it will change the global logging level which will affect the backend's log in JSON format.
 ")
 
 
 (defsection @api (:title "API")
   (40ants-logging:setup-for-backend function)
-  (40ants-logging:setup-for-cli function))
+  (40ants-logging:setup-for-cli function)
+  (40ants-logging:setup-for-repl function)
+  (40ants-logging:remove-repl-appender function))

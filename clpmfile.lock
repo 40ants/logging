@@ -102,6 +102,10 @@
 ("fast-io" :version "2022-11-07" :source "quicklisp" :systems ("fast-io"))
 ("global-vars" :version "2014-11-06" :source "quicklisp" :systems
  ("global-vars"))
+("joaotavora/sly-macrostep" :version "20221202192000" :source "ultralisp"
+ :systems ("slynk-macrostep"))
+("joaotavora/sly-named-readtables" :version "20221202193500" :source
+ "ultralisp" :systems ("slynk-named-readtables"))
 ("jonathan" :version "2020-09-25" :source "quicklisp" :systems ("jonathan"))
 ("local-time" :version "2023-02-15" :source "quicklisp" :systems ("local-time"))
 ("log4cl" :version "2021-12-09" :source "quicklisp" :systems ("log4cl"))
@@ -113,6 +117,8 @@
 ("quicklisp/quicklisp-client" :version "20221213010500" :source "ultralisp"
  :systems ("quicklisp"))
 ("rove" :version "2023-02-15" :source "quicklisp" :systems ("rove"))
+("sly" :version "2023-02-15" :source "quicklisp" :systems
+ ("slynk" "slynk/mrepl"))
 ("static-vectors" :version "2021-06-30" :source "quicklisp" :systems
  ("static-vectors"))
 ("trivial-features" :version "2021-12-09" :source "quicklisp" :systems
@@ -162,6 +168,8 @@
  (t (:asd-file :name "40ants-logging-tests.asd")))
 
 ("40ants-logging.asd"
+ ((:system :name "40ants-slynk/core") (:system :name "40ants-logging"))
+ ((:system :name "40ants-slynk-ci/core") (:system :name "40ants-logging"))
  ((:system :name "40ants-logging/cli") (:system :name "40ants-logging"))
  ((:system :name "40ants-logging-example/cli")
   (:system :name "40ants-logging"))
@@ -180,6 +188,9 @@
  ((:system :name "40ants-slynk-docs") (:system :name "40ants-slynk"))
  ((:system :name "40ants-slynk-ci") (:system :name "40ants-slynk-ci/ci"))
  ((:system :name "40ants-slynk") (:system :name "40ants-slynk/core"))
+ ((:system :name "40ants-logging/cli") (:system :name "40ants-slynk"))
+ ((:system :name "40ants-logging-example/cli") (:system :name "40ants-slynk"))
+ ((:system :name "40ants-logging-ci/cli") (:system :name "40ants-slynk"))
  (t (:project :name "40ants-slynk" :branch "master" :source :implicit-vcs)))
 
 ("40ants/ci"
@@ -383,7 +394,21 @@
 ("fast-io" ((:system :name "jonathan") (:system :name "fast-io")))
 
 ("global-vars"
- ((:system :name "log4cl-extras/config") (:system :name "global-vars")))
+ ((:system :name "log4cl-extras/config") (:system :name "global-vars"))
+ ((:system :name "40ants-slynk/core") (:system :name "global-vars"))
+ ((:system :name "40ants-slynk-ci/core") (:system :name "global-vars"))
+ ((:system :name "40ants-logging/core") (:system :name "global-vars"))
+ ((:system :name "40ants-logging-example/core") (:system :name "global-vars"))
+ ((:system :name "40ants-logging-ci/core") (:system :name "global-vars")))
+
+("joaotavora/sly-macrostep"
+ ((:system :name "40ants-slynk/core") (:system :name "slynk-macrostep"))
+ ((:system :name "40ants-slynk-ci/core") (:system :name "slynk-macrostep")))
+
+("joaotavora/sly-named-readtables"
+ ((:system :name "40ants-slynk/core") (:system :name "slynk-named-readtables"))
+ ((:system :name "40ants-slynk-ci/core")
+  (:system :name "slynk-named-readtables")))
 
 ("jonathan" ((:system :name "log4cl-extras/json") (:system :name "jonathan")))
 
@@ -392,6 +417,8 @@
 
 ("log4cl" ((:system :name "log4cl-extras/json") (:system :name "log4cl"))
  ((:system :name "log4cl-extras/appenders") (:system :name "log4cl"))
+ ((:system :name "40ants-slynk/core") (:system :name "log4cl"))
+ ((:system :name "40ants-slynk-ci/core") (:system :name "log4cl"))
  ((:system :name "40ants-logging/cli") (:system :name "log4cl"))
  ((:system :name "40ants-logging-example/cli") (:system :name "log4cl"))
  ((:system :name "40ants-logging-ci/cli") (:system :name "log4cl")))
@@ -439,6 +466,13 @@
 
 ("rove" ((:system :name "40ants-slynk-tests/core") (:system :name "rove"))
  ((:system :name "40ants-logging-tests/core") (:system :name "rove")))
+
+("sly" ((:system :name "slynk/mrepl") (:system :name "slynk"))
+ ((:system :name "slynk-named-readtables") (:system :name "slynk"))
+ ((:system :name "slynk-macrostep") (:system :name "slynk"))
+ ((:system :name "40ants-slynk/core") (:system :name "slynk"))
+ ((:system :name "40ants-slynk-ci/core") (:system :name "slynk"))
+ ((:system :name "40ants-slynk") (:system :name "slynk/mrepl")))
 
 ("static-vectors" ((:system :name "fast-io") (:system :name "static-vectors")))
 

@@ -5,7 +5,9 @@
   (:import-from #:log4cl-extras/context
                 #:with-fields)
   (:import-from #:40ants-logging
-                #:setup-for-backend))
+                #:setup-for-backend)
+  (:import-from #:40ants-slynk
+                #:start-slynk-if-needed))
 (in-package #:40ants-logging-example/cli)
 
 
@@ -32,6 +34,8 @@
    :level (if verbose
               :debug
               :info))
+  (start-slynk-if-needed)
+  
   (with-fields (:request-id (make-request-id))
     (log:info "Running as a backend.")
     (log:debug "Now I'm going to do an infinite loop.")
@@ -43,6 +47,8 @@
    :level (if verbose
               :debug
               :info))
+  (start-slynk-if-needed)
+  
   (with-fields (:request-id (make-request-id))
     (log:info "Running as a command line application.")
     (run-cli-loop)
