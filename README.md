@@ -42,9 +42,9 @@ You can install this library from Quicklisp, but you want to receive updates qui
 This small library encapsulates a logging approach for all `40A`nts projects. It provides
 a few functions to setup structured logging for two kinds of applications: backend and command-line utility.
 
-For a backend you need to call [`40ants-logging:setup-for-backend`][0072] function. It configures `LOG4CL` to output all logs to `STDOUT` in `JSON` format. We are doing this because these days most backends are running in the Docker or Kubernetes where easiest way to collect logs is to capture daemon's `STDOUT`.
+For a backend you need to call [`40ants-logging:setup-for-backend`][d0af] function. It configures `LOG4CL` to output all logs to `STDOUT` in `JSON` format. We are doing this because these days most backends are running in the Docker or Kubernetes where easiest way to collect logs is to capture daemon's `STDOUT`.
 
-For a command line utilities we are configuring `LOG4CL` to use plaintext format. Call [`40ants-logging:setup-for-cli`][5fca] to make the job. Why `LOG:CONFIG` is not enought? `LOG:CONFIG` uses `LOG4CL` appenders which are not aware of fields added by structured logging macro [`log4cl-extras/context:with-fields`][b464].
+For a command line utilities we are configuring `LOG4CL` to use plaintext format. Call [`40ants-logging:setup-for-cli`][78f4] to make the job. Why `LOG:CONFIG` is not enought? `LOG:CONFIG` uses `LOG4CL` appenders which are not aware of fields added by structured logging macro [`log4cl-extras/context:with-fields`][b464].
 
 You can also build an example app to test how this logging works:
 
@@ -78,7 +78,7 @@ and for backend mode:
 {"fields":{"logger":"40ants-logging-example/cli","func":"run-backend-loop","file":"cli.lisp","request-id":"120002","iteration":1},"level":"INFO","message":"Sleeping 15 seconds","timestamp":"2023-03-05T10:46:27.822530Z"}
 ...
 ```
-If you are using [`40ants-slynk`][b616] system to setup a Slynk server, then [`40ants-logging:setup-for-repl`][fa3c] function will be called automatically on connect to the repl. You can observe logging configuration by like this:
+If you are using [`40ants-slynk`][b616] system to setup a Slynk server, then [`40ants-logging:setup-for-repl`][d1f2] function will be called automatically on connect to the repl. You can observe logging configuration by like this:
 
 ```
 CL-USER> (log:config)
@@ -110,19 +110,19 @@ To change log level only for the `REPL`, call `(40ants-logging:setup-for-repl :l
 
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29"></a>
 
-### [function](3fc8) `40ants-logging:setup-for-backend` &key (level \*default-level\*)
+### [function](663f) `40ants-logging:setup-for-backend` &key (level \*default-level\*)
 
 Configures `LOG4CL` for logging in `JSON` format.
 
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29"></a>
 
-### [function](53b6) `40ants-logging:setup-for-cli` &key (level \*default-level\*)
+### [function](d389) `40ants-logging:setup-for-cli` &key (level \*default-level\*)
 
 Configures `LOG4CL` for logging in plain-text format with context fields support.
 
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-REPL-20FUNCTION-29"></a>
 
-### [function](6d54) `40ants-logging:setup-for-repl` &key (level \*level\*) (stream \*debug-io\*)
+### [function](b2d2) `40ants-logging:setup-for-repl` &key (level \*level\*) (stream \*debug-io\*)
 
 Configures `LOG4CL` for logging in `REPL` when you connect to the running lisp image already configured as a backend or `CLI` application.
 
@@ -131,26 +131,26 @@ when your `SLY` connects to the image.
 
 <a id="x-2840ANTS-LOGGING-3AREMOVE-REPL-APPENDER-20FUNCTION-29"></a>
 
-### [function](eb6f) `40ants-logging:remove-repl-appender`
+### [function](0a1d) `40ants-logging:remove-repl-appender`
 
-Returns configuration the state as it was after [`setup-for-backend`][0072] or [`setup-for-cli`][5fca] call.
+Returns configuration the state as it was after [`setup-for-backend`][d0af] or [`setup-for-cli`][78f4] call.
 
 If you are using [`40ants-slynk`][b616] system, this function will be called automatically
 when your `SLY` disconnects from the image.
 
 
-[0072]: #x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29
-[5fca]: #x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29
-[fa3c]: #x-2840ANTS-LOGGING-3ASETUP-FOR-REPL-20FUNCTION-29
 [b616]: /home/runner/work/slynk/slynk/docs/build/#x-28-23A-28-2812-29-20BASE-CHAR-20-2E-20-2240ants-slynk-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29
 [b464]: https://40ants.com/log4cl-extras/#x-28LOG4CL-EXTRAS-2FCONTEXT-3AWITH-FIELDS-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29
 [66d9]: https://40ants.com/logging
+[d0af]: https://40ants.com/logging/#x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29
+[78f4]: https://40ants.com/logging/#x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29
+[d1f2]: https://40ants.com/logging/#x-2840ANTS-LOGGING-3ASETUP-FOR-REPL-20FUNCTION-29
 [0aac]: https://github.com/40ants/logging
 [2779]: https://github.com/40ants/logging/actions
-[3fc8]: https://github.com/40ants/logging/blob/a00876cce92647710d30b27808e0120bc9a0b7d0/src/core.lisp#L22
-[6d54]: https://github.com/40ants/logging/blob/a00876cce92647710d30b27808e0120bc9a0b7d0/src/core.lisp#L36
-[eb6f]: https://github.com/40ants/logging/blob/a00876cce92647710d30b27808e0120bc9a0b7d0/src/core.lisp#L53
-[53b6]: https://github.com/40ants/logging/blob/a00876cce92647710d30b27808e0120bc9a0b7d0/src/core.lisp#L63
+[663f]: https://github.com/40ants/logging/blob/543bbf1b637ab3208099f6a4c063b60c079da983/src/core.lisp#L22
+[b2d2]: https://github.com/40ants/logging/blob/543bbf1b637ab3208099f6a4c063b60c079da983/src/core.lisp#L36
+[0a1d]: https://github.com/40ants/logging/blob/543bbf1b637ab3208099f6a4c063b60c079da983/src/core.lisp#L53
+[d389]: https://github.com/40ants/logging/blob/543bbf1b637ab3208099f6a4c063b60c079da983/src/core.lisp#L63
 [cd63]: https://github.com/40ants/logging/issues
 
 * * *
