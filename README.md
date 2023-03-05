@@ -84,13 +84,13 @@ and for backend mode:
 
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29"></a>
 
-### [function](342a) `40ants-logging:setup-for-backend` &key (level :warn)
+### [function](23ee) `40ants-logging:setup-for-backend` &key (level :warn)
 
 Configures `LOG4CL` for logging in `JSON` format.
 
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29"></a>
 
-### [function](a4a9) `40ants-logging:setup-for-cli` &key (level :warn)
+### [function](dada) `40ants-logging:setup-for-cli` &key (level :warn)
 
 Configures `LOG4CL` for logging in plain-text format with context fields support.
 
@@ -101,8 +101,8 @@ Configures `LOG4CL` for logging in plain-text format with context fields support
 [66d9]: https://40ants.com/logging
 [0aac]: https://github.com/40ants/logging
 [2779]: https://github.com/40ants/logging/actions
-[342a]: https://github.com/40ants/logging/blob/194850daf5d426928d4542b072bf4ec2dca076c2/src/core.lisp#L13
-[a4a9]: https://github.com/40ants/logging/blob/194850daf5d426928d4542b072bf4ec2dca076c2/src/core.lisp#L26
+[23ee]: https://github.com/40ants/logging/blob/01e0a64a2601d677a624c388bcb2f18ca056fdae/src/core.lisp#L13
+[dada]: https://github.com/40ants/logging/blob/01e0a64a2601d677a624c388bcb2f18ca056fdae/src/core.lisp#L26
 [cd63]: https://github.com/40ants/logging/issues
 
 * * *
