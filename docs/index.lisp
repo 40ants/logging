@@ -51,7 +51,8 @@
 ![Quicklisp](http://quickdocs.org/badge/40ants-logging.svg)
 "
   (@installation section)
-  (@usage section))
+  (@usage section)
+  (@api section))
 
 
 (defsection-copy @readme @index)
@@ -92,6 +93,36 @@ You can also build an example app to test how this logging works:
 ./logging-example --help
 ```
 
-"
+Here is how it's output looks like for CLI mode:
+
+```
+% ./logging-example
+<INFO> [2023-03-05T10:44:25.861365Z] 40ants-logging-example/cli cli.lisp (run-as-cli) Running as a command line application.
+  Fields:
+    request-id: 120002
+<INFO> [2023-03-05T10:44:25.864960Z] 40ants-logging-example/cli cli.lisp (run-cli-loop) Sleeping 1 seconds
+  Fields:
+    request-id: 120002
+    iteration: 0
+<INFO> [2023-03-05T10:44:26.865200Z] 40ants-logging-example/cli cli.lisp (run-cli-loop) Sleeping 1 seconds
+  Fields:
+    request-id: 120002
+    iteration: 1
+...
+```
+
+and for backend mode:
+
+```json
+% ./logging-example --backend
+{"fields":{"logger":"40ants-logging-example/cli","func":"run-as-backend","file":"cli.lisp","request-id":"120002"},"level":"INFO","message":"Running as a backend.","timestamp":"2023-03-05T10:46:12.812570Z"}
+{"fields":{"logger":"40ants-logging-example/cli","func":"run-backend-loop","file":"cli.lisp","request-id":"120002","iteration":0},"level":"INFO","message":"Sleeping 15 seconds","timestamp":"2023-03-05T10:46:12.822253Z"}
+{"fields":{"logger":"40ants-logging-example/cli","func":"run-backend-loop","file":"cli.lisp","request-id":"120002","iteration":1},"level":"INFO","message":"Sleeping 15 seconds","timestamp":"2023-03-05T10:46:27.822530Z"}
+...
+```
+")
+
+
+(defsection @api (:title "API")
   (40ants-logging:setup-for-backend function)
   (40ants-logging:setup-for-cli function))

@@ -11,6 +11,7 @@
 
 
 (defun setup-for-backend (&key (level :warn))
+  "Configures LOG4CL for logging in JSON format."
   (let ((appenders
           (list (list 'this-console
                       :stream *standard-output*
@@ -23,6 +24,7 @@
 
 
 (defun setup-for-cli (&key (level :warn))
+  "Configures LOG4CL for logging in plain-text format with context fields support."
   (let ((appenders
           (list (list 'this-console
                       :layout :plain

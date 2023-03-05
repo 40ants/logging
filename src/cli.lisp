@@ -14,7 +14,7 @@
   (princ-to-string (get-internal-real-time)))
 
 
-(defun run-backed-loop ()
+(defun run-backend-loop ()
   (loop for i upfrom 0
         do (with-fields (:iteration i)
              (log:info "Sleeping 15 seconds")
