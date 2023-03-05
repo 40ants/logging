@@ -52,7 +52,8 @@
                                    "LOG:CONFIG"
                                    "CLI"
                                    "40A")
-                    :external-docs ("https://40ants.com/log4cl-extras/"))
+                    :external-docs ("https://40ants.com/log4cl-extras/"
+                                    "https://40ants.com/slynk/"))
   (40ants-logging system)
   "
 [![](https://github-actions.40ants.com/40ants/logging/matrix.svg?only=ci.run-tests)](https://github.com/40ants/logging/actions)
