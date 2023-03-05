@@ -52,13 +52,47 @@ You can also build an example app to test how this logging works:
 ./build-example.sh
 ./logging-example --help
 ```
+Here is how it's output looks like for `CLI` mode:
+
+```
+% ./logging-example
+<INFO> [2023-03-05T10:44:25.861365Z] 40ants-logging-example/cli cli.lisp (run-as-cli) Running as a command line application.
+  Fields:
+    request-id: 120002
+<INFO> [2023-03-05T10:44:25.864960Z] 40ants-logging-example/cli cli.lisp (run-cli-loop) Sleeping 1 seconds
+  Fields:
+    request-id: 120002
+    iteration: 0
+<INFO> [2023-03-05T10:44:26.865200Z] 40ants-logging-example/cli cli.lisp (run-cli-loop) Sleeping 1 seconds
+  Fields:
+    request-id: 120002
+    iteration: 1
+...
+```
+and for backend mode:
+
+```json
+% ./logging-example --backend
+{"fields":{"logger":"40ants-logging-example/cli","func":"run-as-backend","file":"cli.lisp","request-id":"120002"},"level":"INFO","message":"Running as a backend.","timestamp":"2023-03-05T10:46:12.812570Z"}
+{"fields":{"logger":"40ants-logging-example/cli","func":"run-backend-loop","file":"cli.lisp","request-id":"120002","iteration":0},"level":"INFO","message":"Sleeping 15 seconds","timestamp":"2023-03-05T10:46:12.822253Z"}
+{"fields":{"logger":"40ants-logging-example/cli","func":"run-backend-loop","file":"cli.lisp","request-id":"120002","iteration":1},"level":"INFO","message":"Sleeping 15 seconds","timestamp":"2023-03-05T10:46:27.822530Z"}
+...
+```
+<a id="x-2840ANTS-LOGGING-DOCS-2FINDEX-3A-3A-40API-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
+
+## API
+
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29"></a>
 
-### [function](316f) `40ants-logging:setup-for-backend` &key (level :warn)
+### [function](342a) `40ants-logging:setup-for-backend` &key (level :warn)
+
+Configures `LOG4CL` for logging in `JSON` format.
 
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29"></a>
 
-### [function](3a5d) `40ants-logging:setup-for-cli` &key (level :warn)
+### [function](a4a9) `40ants-logging:setup-for-cli` &key (level :warn)
+
+Configures `LOG4CL` for logging in plain-text format with context fields support.
 
 
 [0072]: #x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29
@@ -67,8 +101,8 @@ You can also build an example app to test how this logging works:
 [66d9]: https://40ants.com/logging
 [0aac]: https://github.com/40ants/logging
 [2779]: https://github.com/40ants/logging/actions
-[316f]: https://github.com/40ants/logging/blob/d96e2df1b255d69f611ade94df4b03092691de35/src/core.lisp#L13
-[3a5d]: https://github.com/40ants/logging/blob/d96e2df1b255d69f611ade94df4b03092691de35/src/core.lisp#L25
+[342a]: https://github.com/40ants/logging/blob/194850daf5d426928d4542b072bf4ec2dca076c2/src/core.lisp#L13
+[a4a9]: https://github.com/40ants/logging/blob/194850daf5d426928d4542b072bf4ec2dca076c2/src/core.lisp#L26
 [cd63]: https://github.com/40ants/logging/issues
 
 * * *
