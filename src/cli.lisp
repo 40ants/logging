@@ -11,7 +11,7 @@
 
 (defun make-request-id ()
   "This function makes a unique ID for a run to demonstrate structural logging."
-  (princ-to-string (get-internal-real-time)))
+  (princ-to-string (get-universal-time)))
 
 
 (defun run-backend-loop ()
