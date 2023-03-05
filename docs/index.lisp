@@ -47,6 +47,7 @@
                                    "ASDF"
                                    "JSON"
                                    "LOG4CL"
+                                   "SLY"
                                    "STDOUT"
                                    "LOG:CONFIG"
                                    "CLI"
