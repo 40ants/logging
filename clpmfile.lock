@@ -15,7 +15,7 @@
 (:implicit-file :type :file-system :system-files ("40ants-logging-tests.asd"))
 (:implicit-file :type :file-system :system-files ("40ants-logging.asd"))
 (:implicit-vcs :type :vcs :projects
- (("docs-builder" :github :path "40ants/docs-builder")))
+ (("40ants-slynk" :github :path "40ants/slynk")))
 ("quicklisp" :url "https://beta.quicklisp.org/dist/quicklisp.txt" :type
  :quicklisp)
 ("ultralisp" :url "https://clpi.ultralisp.org/" :type :clpi)
@@ -26,7 +26,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 :requirements
-(:project :name "docs-builder" :branch "master" :source :implicit-vcs)
+(:project :name "40ants-slynk" :branch "master" :source :implicit-vcs)
 (:asd-file :name "40ants-logging-example.asd")
 (:asd-file :name "40ants-logging-docs.asd")
 (:asd-file :name "40ants-logging-ci.asd")
@@ -55,6 +55,12 @@
 ("40ants-logging.asd" :version :newest :source :implicit-file :systems
  ("40ants-logging" "40ants-logging/ci" "40ants-logging/cli"
   "40ants-logging/core"))
+("40ants-slynk" :version (:commit "96fc23ba523c62d8ed63b4c22dd723b955c0e6d8")
+ :source :implicit-vcs :systems
+ ("40ants-slynk" "40ants-slynk-ci" "40ants-slynk-ci/ci" "40ants-slynk-ci/core"
+  "40ants-slynk-docs" "40ants-slynk-docs/changelog" "40ants-slynk-docs/index"
+  "40ants-slynk-tests" "40ants-slynk-tests/core" "40ants-slynk/ci"
+  "40ants-slynk/core"))
 ("40ants/ci" :version "20221112192001" :source "ultralisp" :systems
  ("40ants-ci/github" "40ants-ci/jobs/docs" "40ants-ci/jobs/job"
   "40ants-ci/jobs/linter" "40ants-ci/jobs/lisp-job" "40ants-ci/jobs/run-tests"
@@ -91,10 +97,8 @@
 ("defmain" :version "2022-11-07" :source "quicklisp" :systems ("defmain"))
 ("dissect" :version "2022-11-07" :source "quicklisp" :systems ("dissect"))
 ("doc" :version "2023-02-15" :source "quicklisp" :systems ("40ants-doc"))
-("docs-builder" :version (:commit "13dcd12a2b02cc1575148968d40cfaa794c66072")
- :source :implicit-vcs :systems ("docs-config" "docs-config/config"))
-("docs-builder" :version (:commit "13dcd12a2b02cc1575148968d40cfaa794c66072")
- :source :implicit-vcs :systems nil)
+("docs-builder" :version "2023-02-15" :source "quicklisp" :systems
+ ("docs-config"))
 ("fast-io" :version "2022-11-07" :source "quicklisp" :systems ("fast-io"))
 ("global-vars" :version "2014-11-06" :source "quicklisp" :systems
  ("global-vars"))
@@ -126,6 +130,10 @@
 
 :reverse-dependencies
 ("40ants-asdf-system"
+ ((:system :name "40ants-slynk/core") (:system :name "40ants-asdf-system"))
+ ((:system :name "40ants-slynk/ci") (:system :name "40ants-asdf-system"))
+ ((:system :name "40ants-slynk") (:system :name "40ants-asdf-system"))
+ ((:system :name "40ants-slynk") (:system :name "40ants-asdf-system"))
  ((:system :name "40ants-logging/core") (:system :name "40ants-asdf-system"))
  ((:system :name "40ants-logging/cli") (:system :name "40ants-asdf-system"))
  ((:system :name "40ants-logging/ci") (:system :name "40ants-asdf-system"))
@@ -162,7 +170,28 @@
  ((:system :name "40ants-logging") (:system :name "40ants-logging/core"))
  (t (:asd-file :name "40ants-logging.asd")))
 
+("40ants-slynk"
+ ((:system :name "40ants-slynk-tests")
+  (:system :name "40ants-slynk-tests/core"))
+ ((:system :name "40ants-slynk-docs/index")
+  (:system :name "40ants-slynk-docs/changelog"))
+ ((:system :name "40ants-slynk-docs")
+  (:system :name "40ants-slynk-docs/index"))
+ ((:system :name "40ants-slynk-docs") (:system :name "40ants-slynk"))
+ ((:system :name "40ants-slynk-ci") (:system :name "40ants-slynk-ci/ci"))
+ ((:system :name "40ants-slynk") (:system :name "40ants-slynk/core"))
+ (t (:project :name "40ants-slynk" :branch "master" :source :implicit-vcs)))
+
 ("40ants/ci"
+ ((:system :name "40ants-slynk/ci") (:system :name "40ants-ci/jobs/linter"))
+ ((:system :name "40ants-slynk/ci") (:system :name "40ants-ci/jobs/run-tests"))
+ ((:system :name "40ants-slynk/ci") (:system :name "40ants-ci/jobs/docs"))
+ ((:system :name "40ants-slynk/ci") (:system :name "40ants-ci/workflow"))
+ ((:system :name "40ants-slynk-ci/ci") (:system :name "40ants-ci/jobs/linter"))
+ ((:system :name "40ants-slynk-ci/ci")
+  (:system :name "40ants-ci/jobs/run-tests"))
+ ((:system :name "40ants-slynk-ci/ci") (:system :name "40ants-ci/jobs/docs"))
+ ((:system :name "40ants-slynk-ci/ci") (:system :name "40ants-ci/workflow"))
  ((:system :name "40ants-logging/ci") (:system :name "40ants-ci/jobs/linter"))
  ((:system :name "40ants-logging/ci")
   (:system :name "40ants-ci/jobs/run-tests"))
@@ -226,6 +255,8 @@
  ((:system :name "40ants-ci/github") (:system :name "40ants-ci/vars")))
 
 ("40ants/doc"
+ ((:system :name "40ants-slynk-docs/changelog")
+  (:system :name "40ants-doc/changelog"))
  ((:system :name "40ants-logging-docs/changelog")
   (:system :name "40ants-doc/changelog"))
  ((:system :name "40ants-doc/reference")
@@ -342,15 +373,12 @@
 ("doc" ((:system :name "log4cl-extras/context") (:system :name "40ants-doc"))
  ((:system :name "log4cl-extras/config") (:system :name "40ants-doc"))
  ((:system :name "defmain") (:system :name "40ants-doc"))
+ ((:system :name "40ants-slynk-docs/index") (:system :name "40ants-doc"))
  ((:system :name "40ants-logging-docs/index") (:system :name "40ants-doc")))
 
-("docs-builder"
- ((:system :name "docs-config") (:system :name "docs-config/config"))
- ((:system :name "defmain") (:system :name "docs-config"))
+("docs-builder" ((:system :name "defmain") (:system :name "docs-config"))
+ ((:system :name "40ants-slynk-docs/index") (:system :name "docs-config"))
  ((:system :name "40ants-logging-docs/index") (:system :name "docs-config")))
-
-("docs-builder"
- (t (:project :name "docs-builder" :branch "master" :source :implicit-vcs)))
 
 ("fast-io" ((:system :name "jonathan") (:system :name "fast-io")))
 
@@ -376,6 +404,7 @@
  ((:system :name "log4cl-extras/config") (:system :name "named-readtables"))
  ((:system :name "defmain") (:system :name "named-readtables"))
  ((:system :name "cl-syntax") (:system :name "named-readtables"))
+ ((:system :name "40ants-slynk-docs/index") (:system :name "named-readtables"))
  ((:system :name "40ants-logging-docs/index")
   (:system :name "named-readtables"))
  ((:system :name "40ants-doc/source-api") (:system :name "named-readtables"))
@@ -392,6 +421,8 @@
  ((:system :name "log4cl-extras/config")
   (:system :name "pythonic-string-reader"))
  ((:system :name "defmain") (:system :name "pythonic-string-reader"))
+ ((:system :name "40ants-slynk-docs/index")
+  (:system :name "pythonic-string-reader"))
  ((:system :name "40ants-logging-docs/index")
   (:system :name "pythonic-string-reader"))
  ((:system :name "40ants-doc/source-api")
@@ -403,9 +434,11 @@
  ((:system :name "40ants-doc") (:system :name "pythonic-string-reader")))
 
 ("quicklisp/quicklisp-client"
+ ((:system :name "40ants-slynk-docs/index") (:system :name "quicklisp"))
  ((:system :name "40ants-logging-docs/index") (:system :name "quicklisp")))
 
-("rove" ((:system :name "40ants-logging-tests/core") (:system :name "rove")))
+("rove" ((:system :name "40ants-slynk-tests/core") (:system :name "rove"))
+ ((:system :name "40ants-logging-tests/core") (:system :name "rove")))
 
 ("static-vectors" ((:system :name "fast-io") (:system :name "static-vectors")))
 

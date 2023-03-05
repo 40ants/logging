@@ -23,7 +23,10 @@
 (:asd "40ants-logging-docs.asd")
 (:asd "40ants-logging-example.asd")
 
-(:github "docs-builder"
- :path "40ants/docs-builder"
- :branch "master")
+;; (:github "docs-builder"
+;;  :path "40ants/docs-builder"
+;;  :branch "master")
 
+(:github "40ants-slynk"
+ :path "40ants/slynk"
+ :branch "master")

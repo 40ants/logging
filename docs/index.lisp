@@ -42,7 +42,15 @@
                                    "TODO"
                                    "Unlicense"
                                    "REPL"
-                                   "GIT")
+                                   "GIT"
+                                   "ASDF:PACKAGE-INFERRED-SYSTEM"
+                                   "ASDF"
+                                   "JSON"
+                                   "LOG4CL"
+                                   "STDOUT"
+                                   "LOG:CONFIG"
+                                   "CLI"
+                                   "40A")
                     :external-docs ("https://40ants.com/log4cl-extras/"))
   (40ants-logging system)
   "
@@ -70,14 +78,7 @@ You can install this library from Quicklisp, but you want to receive updates qui
 """)
 
 
-(defsection @usage (:title "Usage"
-                    :ignore-words ("ASDF:PACKAGE-INFERRED-SYSTEM"
-                                   "ASDF"
-                                   "JSON"
-                                   "LOG4CL"
-                                   "STDOUT"
-                                   "LOG:CONFIG"
-                                   "40A"))
+(defsection @usage (:title "Usage")
   "
 This small library encapsulates a logging approach for all 40Ants projects. It provides
 a few functions to setup structured logging for two kinds of applications: backend and command-line utility.
