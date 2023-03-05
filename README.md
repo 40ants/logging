@@ -78,31 +78,79 @@ and for backend mode:
 {"fields":{"logger":"40ants-logging-example/cli","func":"run-backend-loop","file":"cli.lisp","request-id":"120002","iteration":1},"level":"INFO","message":"Sleeping 15 seconds","timestamp":"2023-03-05T10:46:27.822530Z"}
 ...
 ```
+If you are using [`40ants-slynk`][b616] system to setup a Slynk server, then [`40ants-logging:setup-for-repl`][fa3c] function will be called automatically on connect to the repl. You can observe logging configuration by like this:
+
+```
+CL-USER> (log:config)
+ROOT, DEBUG
+|
++-(1)-#<STABLE-THIS-CONSOLE-APPENDER {10055B18F3}>
+|     with #<JSON-LAYOUT {10055B6AD3}>
+|     :immediate-flush NIL
+|     :flush-interval  1
+|     :stream-owner    NIL
+|     :stream          #<SB-SYS:FD-STREAM for "standard output" {1001D016C3}>
+|     :message-count   0
+|     :filter          :INFO
+|
++-(2)-#<STABLE-THIS-CONSOLE-APPENDER {10023FB1D3}>
+      with #<PLAIN-LAYOUT {10055B46D3}>
+      :immediate-flush NIL
+      :flush-interval  1
+      :stream-owner    NIL
+      :stream          #<SLYNK-GRAY::SLY-OUTPUT-STREAM {1001D00153}>
+      :message-count   0
+      :filter          :WARN
+```
+To change log level only for the `REPL`, call `(40ants-logging:setup-for-repl :level :warn)` function. If you will change log level via standard function of `LOG4CL`: `(log:config :warn)`, it will change the global logging level which will affect the backend's log in `JSON` format.
+
 <a id="x-2840ANTS-LOGGING-DOCS-2FINDEX-3A-3A-40API-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
 ## API
 
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29"></a>
 
-### [function](23ee) `40ants-logging:setup-for-backend` &key (level :warn)
+### [function](3fc8) `40ants-logging:setup-for-backend` &key (level \*default-level\*)
 
 Configures `LOG4CL` for logging in `JSON` format.
 
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29"></a>
 
-### [function](dada) `40ants-logging:setup-for-cli` &key (level :warn)
+### [function](53b6) `40ants-logging:setup-for-cli` &key (level \*default-level\*)
 
 Configures `LOG4CL` for logging in plain-text format with context fields support.
+
+<a id="x-2840ANTS-LOGGING-3ASETUP-FOR-REPL-20FUNCTION-29"></a>
+
+### [function](6d54) `40ants-logging:setup-for-repl` &key (level \*level\*) (stream \*debug-io\*)
+
+Configures `LOG4CL` for logging in `REPL` when you connect to the running lisp image already configured as a backend or `CLI` application.
+
+If you are using [`40ants-slynk`][b616] system, this function will be called automatically
+when your `SLY` connects to the image.
+
+<a id="x-2840ANTS-LOGGING-3AREMOVE-REPL-APPENDER-20FUNCTION-29"></a>
+
+### [function](eb6f) `40ants-logging:remove-repl-appender`
+
+Returns configuration the state as it was after [`setup-for-backend`][0072] or [`setup-for-cli`][5fca] call.
+
+If you are using [`40ants-slynk`][b616] system, this function will be called automatically
+when your `SLY` disconnects from the image.
 
 
 [0072]: #x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29
 [5fca]: #x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29
+[fa3c]: #x-2840ANTS-LOGGING-3ASETUP-FOR-REPL-20FUNCTION-29
+[b616]: /home/runner/work/slynk/slynk/docs/build/#x-28-23A-28-2812-29-20BASE-CHAR-20-2E-20-2240ants-slynk-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29
 [b464]: https://40ants.com/log4cl-extras/#x-28LOG4CL-EXTRAS-2FCONTEXT-3AWITH-FIELDS-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29
 [66d9]: https://40ants.com/logging
 [0aac]: https://github.com/40ants/logging
 [2779]: https://github.com/40ants/logging/actions
-[23ee]: https://github.com/40ants/logging/blob/01e0a64a2601d677a624c388bcb2f18ca056fdae/src/core.lisp#L13
-[dada]: https://github.com/40ants/logging/blob/01e0a64a2601d677a624c388bcb2f18ca056fdae/src/core.lisp#L26
+[3fc8]: https://github.com/40ants/logging/blob/a00876cce92647710d30b27808e0120bc9a0b7d0/src/core.lisp#L22
+[6d54]: https://github.com/40ants/logging/blob/a00876cce92647710d30b27808e0120bc9a0b7d0/src/core.lisp#L36
+[eb6f]: https://github.com/40ants/logging/blob/a00876cce92647710d30b27808e0120bc9a0b7d0/src/core.lisp#L53
+[53b6]: https://github.com/40ants/logging/blob/a00876cce92647710d30b27808e0120bc9a0b7d0/src/core.lisp#L63
 [cd63]: https://github.com/40ants/logging/issues
 
 * * *
