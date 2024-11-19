@@ -16,21 +16,16 @@
   (princ-to-string (get-universal-time)))
 
 
-(defun run-backend-loop ()
+(defun run-loop ()
   (loop for i upfrom 0
         do (with-fields (:iteration i)
              (log:info "Sleeping 15 seconds")
+             (log:debug "This should not be visible unless --verbose option was given")
              (sleep 15))))
 
-(defun run-cli-loop ()
-  (loop for i upto 15
-        do (with-fields (:iteration i)
-             (log:info "Sleeping 1 seconds")
-             (sleep 1))))
 
-
-(defun run-as-backend (&key verbose)
-  (setup-for-backend
+(defun run-as (func &key verbose)
+  (funcall func
    :level (if verbose
               :debug
               :info))
@@ -39,21 +34,8 @@
   (with-fields (:request-id (make-request-id))
     (log:info "Running as a backend.")
     (log:debug "Now I'm going to do an infinite loop.")
-    (run-backend-loop)))
+    (run-loop)))
 
-
-(defun run-as-cli (&key verbose)
-  (40ants-logging:setup-for-cli
-   :level (if verbose
-              :debug
-              :info))
-  (start-slynk-if-needed)
-  
-  (with-fields (:request-id (make-request-id))
-    (log:info "Running as a command line application.")
-    (run-cli-loop)
-    (with-fields (:another "Nested logging var")
-      (log:debug "Exiting"))))
 
 
 (defmain:defmain (main) ((backend "Run as a backend instead of command line mode."
@@ -61,8 +43,14 @@
                          (verbose "Set DEBUG level instead of INFO."
                                   :flag t))
   "Example program to demonstrate logging in different contexts."
-  (cond
-    (backend
-     (run-as-backend :verbose verbose))
-    (t
-     (run-as-cli :verbose verbose))))
+  (unwind-protect
+       (run-as (cond
+                 (backend #'setup-for-backend)
+                 (t #'40ants-logging:setup-for-cli))
+               :verbose verbose)
+    (with-fields (:another "Nested logging var")
+      (log:debug "Exiting"))))
+
+
+(defun test-fun ()
+  (log:warn "FDFD"))
