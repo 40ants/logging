@@ -11,6 +11,14 @@
                               "LOG4SLY"
                               "LOG4SLYNK"
                               "HTTP"))
+  (0.3.0 2025-01-12
+         "
+## Changed
+
+* Now 40ANTS-LOGGING:SETUP-FOR-BACKEND function and 40ANTS-LOGGING:SETUP-FOR-CLI function set the given level not only for appender but also for a root logger, preventing REPL pollution with all debug logs.
+* Also, 40ANTS-LOGGING:SETUP-FOR-REPL function now uses :DEBUG as default for :LEVEL argument. This way you only need to set needed log level for selected packages using LOG4SLY and Emacs.
+"
+         )
   (0.2.0 2024-11-20
          "
 ## Changed
