@@ -47,11 +47,17 @@
                                    "ASDF"
                                    "JSON"
                                    "LOG4CL"
+                                   "LOG4SLY"
                                    "SLY"
+                                   "ERROR"
+                                   "WARN"
+                                   "INFO"
+                                   "DEBUG"
+                                   "IDE"
                                    "STDOUT"
                                    "LOG:CONFIG"
                                    "CLI"
-                                   "40A")
+                                   "40Ants")
                     :external-docs ("https://40ants.com/log4cl-extras/"
                                     "https://40ants.com/slynk/"))
   (40ants-logging system)
@@ -82,8 +88,28 @@ You can install this library from Quicklisp, but you want to receive updates qui
 
 (defsection @usage (:title "Usage")
   "
-This small library encapsulates a logging approach for all 40Ants projects. It provides
+This small library encapsulates a logging approach for all `40Ants` projects. It provides
 a few functions to setup structured logging for two kinds of applications: backend and command-line utility.
+
+# The main idea
+
+The idea of our approach to logging is that an application work in two modes:
+
+- regular;
+- IDE connected.
+
+In regular mode application should log to the standard output or to the file usually using JSON format. These logs should be collected and stored in some kind of log store like ElasticSearch. Usually you want to limit log to store only WARN and ERROR levels.
+
+In the second mode, a developer has connected to the app and wants to be able to see some log outputs in the REPL.
+
+We define two log appenders for these two modes:
+
+- main log appender writes logs in regular mode.
+- repl log appender can be added when REPL is enabled. This is done automatically if you start Slynk using 40ANTS-SLYNK system.
+
+Note, a developer don't need to see all INFO and DEBUG logs but only these logs from some package. So, we keep root logger's level the same as was specified for the main log appender. For example, imagine the main appender was configured to log WARN and INFO, but REPL appender configured to show DEBUG. When you'll connect to the REPL, it will not be cluttered with DEBUG messages from the all packages, instead only WARN and ERROR will be logged to the REPL the same as they will be logged to the main appender. But if you want to debug some package, you can set DEBUG level for this package only using LOG4SLY.
+
+# Details
 
 For a backend you need to call 40ANTS-LOGGING:SETUP-FOR-BACKEND function. It configures LOG4CL to output all logs to STDOUT in JSON format. We are doing this because these days most backends are running in the Docker or Kubernetes where easiest way to collect logs is to capture daemon's STDOUT.
 
