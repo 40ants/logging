@@ -33,8 +33,32 @@ You can install this library from Quicklisp, but you want to receive updates qui
 
 ## Usage
 
-This small library encapsulates a logging approach for all `40A`nts projects. It provides
+This small library encapsulates a logging approach for all `40Ants` projects. It provides
 a few functions to setup structured logging for two kinds of applications: backend and command-line utility.
+
+<a id="the-main-idea"></a>
+
+### The main idea
+
+The idea of our approach to logging is that an application work in two modes:
+
+* regular;
+* `IDE` connected.
+
+In regular mode application should log to the standard output or to the file usually using `JSON` format. These logs should be collected and stored in some kind of log store like ElasticSearch. Usually you want to limit log to store only `WARN` and `ERROR` levels.
+
+In the second mode, a developer has connected to the app and wants to be able to see some log outputs in the `REPL`.
+
+We define two log appenders for these two modes:
+
+* main log appender writes logs in regular mode.
+* repl log appender can be added when `REPL` is enabled. This is done automatically if you start Slynk using [`40ants-slynk`][04ac] system.
+
+Note, a developer don't need to see all `INFO` and `DEBUG` logs but only these logs from some package. So, we keep root logger's level the same as was specified for the main log appender. For example, imagine the main appender was configured to log `WARN` and `INFO`, but `REPL` appender configured to show `DEBUG`. When you'll connect to the `REPL`, it will not be cluttered with `DEBUG` messages from the all packages, instead only `WARN` and `ERROR` will be logged to the `REPL` the same as they will be logged to the main appender. But if you want to debug some package, you can set `DEBUG` level for this package only using `LOG4SLY`.
+
+<a id="details"></a>
+
+### Details
 
 For a backend you need to call [`40ants-logging:setup-for-backend`][d0af] function. It configures `LOG4CL` to output all logs to `STDOUT` in `JSON` format. We are doing this because these days most backends are running in the Docker or Kubernetes where easiest way to collect logs is to capture daemon's `STDOUT`.
 
@@ -104,19 +128,19 @@ To change log level only for the `REPL`, call `(40ants-logging:setup-for-repl :l
 
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29"></a>
 
-### [function](ab3c) `40ants-logging:setup-for-backend` &key (level \*default-level\*)
+### [function](4889) `40ants-logging:setup-for-backend` &key (level \*default-level\*)
 
 Configures `LOG4CL` for logging in `JSON` format.
 
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29"></a>
 
-### [function](18a2) `40ants-logging:setup-for-cli` &key (level \*default-level\*)
+### [function](abec) `40ants-logging:setup-for-cli` &key (level \*default-level\*)
 
 Configures `LOG4CL` for logging in plain-text format with context fields support.
 
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-REPL-20FUNCTION-29"></a>
 
-### [function](f8dd) `40ants-logging:setup-for-repl` &key (level \*level\*) (stream \*debug-io\*)
+### [function](4435) `40ants-logging:setup-for-repl` &key (level :debug) (stream \*debug-io\*)
 
 Configures `LOG4CL` for logging in `REPL` when you connect to the running lisp image already configured as a backend or `CLI` application.
 
@@ -125,7 +149,7 @@ when your `SLY` connects to the image.
 
 <a id="x-2840ANTS-LOGGING-3AREMOVE-REPL-APPENDER-20FUNCTION-29"></a>
 
-### [function](f213) `40ants-logging:remove-repl-appender`
+### [function](a05a) `40ants-logging:remove-repl-appender`
 
 Returns configuration the state as it was after [`setup-for-backend`][d0af] or [`setup-for-cli`][78f4] call.
 
@@ -141,10 +165,10 @@ when your `SLY` disconnects from the image.
 [04ac]: https://40ants.com/slynk/#x-28-23A-28-2812-29-20BASE-CHAR-20-2E-20-2240ants-slynk-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29
 [0aac]: https://github.com/40ants/logging
 [2779]: https://github.com/40ants/logging/actions
-[f213]: https://github.com/40ants/logging/blob/99339d2087081a6732f50215293b2dae1934b1fa/src/core.lisp#L122
-[ab3c]: https://github.com/40ants/logging/blob/99339d2087081a6732f50215293b2dae1934b1fa/src/core.lisp#L38
-[18a2]: https://github.com/40ants/logging/blob/99339d2087081a6732f50215293b2dae1934b1fa/src/core.lisp#L69
-[f8dd]: https://github.com/40ants/logging/blob/99339d2087081a6732f50215293b2dae1934b1fa/src/core.lisp#L96
+[4435]: https://github.com/40ants/logging/blob/aec98451cfc1581485c475243fb561cb27f26443/src/core.lisp#L108
+[a05a]: https://github.com/40ants/logging/blob/aec98451cfc1581485c475243fb561cb27f26443/src/core.lisp#L135
+[4889]: https://github.com/40ants/logging/blob/aec98451cfc1581485c475243fb561cb27f26443/src/core.lisp#L38
+[abec]: https://github.com/40ants/logging/blob/aec98451cfc1581485c475243fb561cb27f26443/src/core.lisp#L81
 [cd63]: https://github.com/40ants/logging/issues
 [07be]: https://quickdocs.org/global-vars
 [691c]: https://quickdocs.org/log4cl-extras
