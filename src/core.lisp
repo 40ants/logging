@@ -36,7 +36,24 @@
 
 
 (defun setup-for-backend (&key (level *default-level*))
-  "Configures LOG4CL for logging in JSON format."
+  "Configures LOG4CL for logging in JSON format.
+
+   Here we set for the root logger
+   the same level as for the main appender.
+   Usually this level will be higher than level
+   for the REPL appender. We are doing this
+   to not show INFO and DEBUG messages in the REPL
+   by default if they are not logged by the main appender.
+
+   But you can use LOG4SLY to setup more verbose log
+   levels for subcategories. For example, main appender
+   can be configured to log WARNs and REPL appender
+   configured to show DEBUG. But when you'll connect
+   to the REPL, it will not be cluttered with DEBUG
+   messages from the all packages, instead only WARNs and ERRORs
+   will be logged to the REPL the same as they will be logged
+   to the main appender. But if you want to debug some package,
+   you can set DEBUG level for it using LOG4SLY."
   (setf *level* level)
   (setf *core-appenders*
         (list (list 'this-console
@@ -52,21 +69,6 @@
           (make-hash-table :test 'equal))
     
     (log4cl-extras/config:setup
-     ;; Here we set for the root logger
-     ;; the same level as for the main appender.
-     ;; Usually this level will be higher than level
-     ;; for the REPL appender. We are doing this
-     ;; to not show INFO and DEBUG messages in the REPL
-     ;; by default if they are not logged by the main appender.
-     ;; But you can use LOG4SLY to setup more verbose log
-     ;; levels for subcategories. For example, main appender
-     ;; can be configured to log WARNs and REPL appender
-     ;; configured to show DEBUG. But when you'll connect
-     ;; to the REPL, it will not be cluttered with DEBUG
-     ;; messages from the all packages, instead only WARNs and ERRORs
-     ;; will be logged to the REPL the same as they will be logged
-     ;; to the main appender. But if you want to debug some package,
-     ;; you can set DEBUG level for it using LOG4SLY.
      (list :level level
            :appenders (append *repl-appenders*
                               *core-appenders*)))
