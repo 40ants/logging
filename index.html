@@ -1,0 +1,314 @@
+<html lang=en>
+ <head>
+  <meta charset=UTF-8><meta name=viewport
+      content="width=device-width, initial-scale=1">
+  <title>40ants-logging - Functions to configure log4cl for different contexts: 
+   REPL, Backend, Command Line Application.</title>
+  <link rel=alternate
+        href="https://40ants.com/logging/changelog.xml"
+        type="application/rss+xml">
+  <link rel=stylesheet type="text/css"
+        href=theme.css>
+  <script type="text/javascript" src=jquery.js></script>
+  <script type="text/javascript" src=toc.js></script>
+  <script type="text/javascript">$(document).ready(function() {$('a:has(img)').css('border-bottom', 'none')})</script>
+  <link rel=stylesheet type="text/css"
+      href=highlight.min.css>
+  <script type="text/javascript"
+          src=highlight.min.js></script>
+  <script type="text/javascript">hljs.highlightAll();</script>
+<style type="text/css">
+/* Стили для сворачиваемого меню */
+.sidebar ul ul {
+  display: none; /* Скрываем все подменю по умолчанию */
+  margin-left: 0.5em;
+}
+
+.sidebar li.expanded > ul {
+  display: block; /* Показываем подменю для развернутых элементов */
+}
+
+/* Стили для пунктов с подменю */
+.sidebar li.has-children > a {
+  cursor: pointer;
+  position: relative;
+  padding-left: 1.2em;
+}
+
+.sidebar li.has-children > p > a {
+  position: relative;
+  left: -1rem;
+}
+
+.sidebar li.has-children > p > a::before {
+  content:"►";
+}
+
+.sidebar li.has-children.expanded > p > a::before {
+  content: "▼";
+  position: relative;
+  left: -0.08rem;
+}
+
+/* Подсветка активного пункта */
+.sidebar li.active > a {
+  font-weight: bold;
+}
+
+/* Если активная страница находится в подменю, раскрываем родителя */
+.sidebar li.active-parent {
+  font-weight: normal;
+}
+
+.sidebar li.active-parent > ul {
+  display: block;
+}
+</style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FL71WXK73K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-FL71WXK73K');
+    </script>
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+       (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+       m[i].l=1*new Date();
+       for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+       k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+       (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+       ym(42462884, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true
+       });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/42462884" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+
+ </head>
+ <body>
+  <div class=page><a id=fork-me href="https://github.com/40ants/logging">Fork me on GitHub</a>
+   <div class=navbar>
+    <div class=navbar-inner>
+     <a class=brand href="/">
+      <img class=logo
+           src="https://40ants.com/img/logo.svg"></a>
+     <ul class=nav>
+      <li><a href="/posts/">Blog</a>
+      <li><a href="/ru/posts/">Blog (RU)</a>
+      <li><a href="/tips/">Lisp Tips</a>
+      <li><a href="/projects/">Our Projects</a>
+      <li><a href="/about/">About</a>
+     </ul>
+    </div>
+   </div>
+   <input type=checkbox id=sidebar-check>
+   <label for=sidebar-check>
+    <div id=sidebar-trigger>
+     <span></span><span></span><span></span>
+    </div></label><div class=sidebar><div class=header><form class=search method=GET action="search/">
+      <input type=text name=q>
+      <input type=submit value=Search><span id=search-progress></span>
+     </form>
+    </div><div class=content><div class=page-toc><ul><li><p><a href="#x-2840ANTS-LOGGING-DOCS-2FINDEX-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-LOGGING-DOCS-2FINDEX-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">40ants-logging - Functions to configure log4cl for different contexts: REPL, Backend, Command Line Application.</a></p><ul><li><p><a href="#40-ants-logging-asdf-system-details" data-document="" data-node="40-ants-logging-asdf-system-details">40ANTS-LOGGING ASDF System Details</a></p></li><li><p><a href="#x-2840ANTS-LOGGING-DOCS-2FINDEX-3A-3A-40INSTALLATION-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-LOGGING-DOCS-2FINDEX-3A-3A-40INSTALLATION-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Installation</a></p></li><li><p><a href="#x-2840ANTS-LOGGING-DOCS-2FINDEX-3A-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-LOGGING-DOCS-2FINDEX-3A-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Usage</a></p><ul><li><p><a href="#the-main-idea" data-document="" data-node="the-main-idea">The main idea</a></p></li><li><p><a href="#details" data-document="" data-node="details">Details</a></p></li></ul></li><li><p><a href="#x-2840ANTS-LOGGING-DOCS-2FINDEX-3A-3A-40API-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-LOGGING-DOCS-2FINDEX-3A-3A-40API-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">API</a></p></li></ul></li><li><p><a href="changelog/#x-2840ANTS-LOGGING-DOCS-2FCHANGELOG-3A-40CHANGELOG-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="changelog/" data-node="x-2840ANTS-LOGGING-DOCS-2FCHANGELOG-3A-40CHANGELOG-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">ChangeLog</a></p></li></ul>
+     </div>
+    </div><div class=footer>
+     <a href="https://40ants.com/doc">[generated by 40ANTS-DOC]</a>
+    </div>
+   </div><div class=content role=main><h1>40ants-logging - Functions to configure log4cl for different contexts: REPL, Backend, Command Line Application.<a class=header-link
+     href=#x-2840ANTS-LOGGING-DOCS-2FINDEX-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-LOGGING-DOCS-2FINDEX-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h1><h2 id="40-ants-logging-asdf-system-details">40ANTS-LOGGING ASDF System Details</h2><ul><li><p>Description: Functions to configure log4cl for different contexts: <code>REPL</code>, Backend, Command Line Application.</p></li><li><p>Licence: Unlicense</p></li><li><p>Author: Alexander Artemenko &lt;svetlyak.40wt@gmail.com&gt;</p></li><li><p>Homepage: <a href="https://40ants.com/logging/">https://40ants.com/logging/</a></p></li><li><p>Bug tracker: <a href="https://github.com/40ants/logging/issues">https://github.com/40ants/logging/issues</a></p></li><li><p>Source control: <a href="https://github.com/40ants/logging">GIT</a></p></li><li><p>Depends on: <a href="https://quickdocs.org/global-vars">global-vars</a>, <a href="https://quickdocs.org/log4cl-extras">log4cl-extras</a></p></li></ul><p><a href="https://github.com/40ants/logging/actions"><img src="https://github-actions.40ants.com/40ants/logging/matrix.svg?only=ci.run-tests"/></a></p><p><img src="http://quickdocs.org/badge/40ants-logging.svg"/></p><h2>Installation<a class=header-link
+     href=#x-2840ANTS-LOGGING-DOCS-2FINDEX-3A-3A-40INSTALLATION-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-LOGGING-DOCS-2FINDEX-3A-3A-40INSTALLATION-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><p>You can install this library from Quicklisp, but you want to receive updates quickly, then install it from Ultralisp.org:</p><pre><code class="">(ql-dist:install-dist &quot;http://dist.ultralisp.org/&quot;
+                      :prompt nil)
+(ql:quickload :40ants-logging)</code></pre><h2>Usage<a class=header-link
+     href=#x-2840ANTS-LOGGING-DOCS-2FINDEX-3A-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-LOGGING-DOCS-2FINDEX-3A-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><p>This small library encapsulates a logging approach for all <code>40Ants</code> projects. It provides
+a few functions to setup structured logging for two kinds of applications: backend and command-line utility.</p><h3 id="the-main-idea">The main idea</h3><p>The idea of our approach to logging is that an application work in two modes:</p><ul><li><p>regular;</p></li><li><p><code>IDE</code> connected.</p></li></ul><p>In regular mode application should log to the standard output or to the file usually using <code>JSON</code> format. These logs should be collected and stored in some kind of log store like ElasticSearch. Usually you want to limit log to store only <code>WARN</code> and <code>ERROR</code> levels.</p><p>In the second mode, a developer has connected to the app and wants to be able to see some log outputs in the <code>REPL</code>.</p><p>We define two log appenders for these two modes:</p><ul><li><p>main log appender writes logs in regular mode.</p></li><li><p>repl log appender can be added when <code>REPL</code> is enabled. This is done automatically if you start Slynk using <a href="https://40ants.com/slynk/#x-28-23A-28-2812-29-20BASE-CHAR-20-2E-20-2240ants-slynk-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29"><code>40ants-slynk</code></a> system.</p></li></ul><p>Note, a developer don't need to see all <code>INFO</code> and <code>DEBUG</code> logs but only these logs from some package. So, we keep root logger's level the same as was specified for the main log appender. For example, imagine the main appender was configured to log <code>WARN</code> and <code>INFO</code>, but <code>REPL</code> appender configured to show <code>DEBUG</code>. When you'll connect to the <code>REPL</code>, it will not be cluttered with <code>DEBUG</code> messages from the all packages, instead only <code>WARN</code> and <code>ERROR</code> will be logged to the <code>REPL</code> the same as they will be logged to the main appender. But if you want to debug some package, you can set <code>DEBUG</code> level for this package only using <code>LOG4SLY</code>.</p><h3 id="details">Details</h3><p>For a backend you need to call <a href="https://40ants.com/logging/#x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29" data-document="https://40ants.com/logging/" data-node="x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29"><code>40ants-logging:setup-for-backend</code></a> function. It configures <code>LOG4CL</code> to output all logs to <code>STDOUT</code> in <code>JSON</code> format. We are doing this because these days most backends are running in the Docker or Kubernetes where easiest way to collect logs is to capture daemon's <code>STDOUT</code>.</p><p>For a command line utilities we are configuring <code>LOG4CL</code> to use plaintext format. Call <a href="https://40ants.com/logging/#x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29" data-document="https://40ants.com/logging/" data-node="x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29"><code>40ants-logging:setup-for-cli</code></a> to make the job. Why <code>LOG:CONFIG</code> is not enought? <code>LOG:CONFIG</code> uses <code>LOG4CL</code> appenders which are not aware of fields added by structured logging macro <a href="https://40ants.com/log4cl-extras/#x-28LOG4CL-EXTRAS-2FCONTEXT-3AWITH-FIELDS-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"><code>log4cl-extras/context:with-fields</code></a>.</p><p>You can also build an example app to test how this logging works:</p><pre><code class="">./build-example.sh
+./logging-example --help</code></pre><p>Here is how it's output looks like for <code>CLI</code> mode:</p><pre><code class="">% ./logging-example
+&lt;INFO&gt; [2023-03-05T10:44:25.861365Z] 40ants-logging-example/cli cli.lisp (run-as-cli) Running as a command line application.
+  Fields:
+    request-id: 120002
+&lt;INFO&gt; [2023-03-05T10:44:25.864960Z] 40ants-logging-example/cli cli.lisp (run-cli-loop) Sleeping 1 seconds
+  Fields:
+    request-id: 120002
+    iteration: 0
+&lt;INFO&gt; [2023-03-05T10:44:26.865200Z] 40ants-logging-example/cli cli.lisp (run-cli-loop) Sleeping 1 seconds
+  Fields:
+    request-id: 120002
+    iteration: 1
+...</code></pre><p>and for backend mode:</p><pre><code class="json">% ./logging-example --backend
+{&quot;fields&quot;:{&quot;logger&quot;:&quot;40ants-logging-example/cli&quot;,&quot;func&quot;:&quot;run-as-backend&quot;,&quot;file&quot;:&quot;cli.lisp&quot;,&quot;request-id&quot;:&quot;120002&quot;},&quot;level&quot;:&quot;INFO&quot;,&quot;message&quot;:&quot;Running as a backend.&quot;,&quot;timestamp&quot;:&quot;2023-03-05T10:46:12.812570Z&quot;}
+{&quot;fields&quot;:{&quot;logger&quot;:&quot;40ants-logging-example/cli&quot;,&quot;func&quot;:&quot;run-backend-loop&quot;,&quot;file&quot;:&quot;cli.lisp&quot;,&quot;request-id&quot;:&quot;120002&quot;,&quot;iteration&quot;:0},&quot;level&quot;:&quot;INFO&quot;,&quot;message&quot;:&quot;Sleeping 15 seconds&quot;,&quot;timestamp&quot;:&quot;2023-03-05T10:46:12.822253Z&quot;}
+{&quot;fields&quot;:{&quot;logger&quot;:&quot;40ants-logging-example/cli&quot;,&quot;func&quot;:&quot;run-backend-loop&quot;,&quot;file&quot;:&quot;cli.lisp&quot;,&quot;request-id&quot;:&quot;120002&quot;,&quot;iteration&quot;:1},&quot;level&quot;:&quot;INFO&quot;,&quot;message&quot;:&quot;Sleeping 15 seconds&quot;,&quot;timestamp&quot;:&quot;2023-03-05T10:46:27.822530Z&quot;}
+...</code></pre><p>If you are using <a href="https://40ants.com/slynk/#x-28-23A-28-2812-29-20BASE-CHAR-20-2E-20-2240ants-slynk-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29"><code>40ants-slynk</code></a> system to setup a Slynk server, then <a href="https://40ants.com/logging/#x-2840ANTS-LOGGING-3ASETUP-FOR-REPL-20FUNCTION-29" data-document="https://40ants.com/logging/" data-node="x-2840ANTS-LOGGING-3ASETUP-FOR-REPL-20FUNCTION-29"><code>40ants-logging:setup-for-repl</code></a> function will be called automatically on connect to the repl. You can observe logging configuration by like this:</p><pre><code class="">CL-USER&gt; (log:config)
+ROOT, DEBUG
+|
++-(1)-#&lt;STABLE-THIS-CONSOLE-APPENDER {10055B18F3}&gt;
+|     with #&lt;JSON-LAYOUT {10055B6AD3}&gt;
+|     :immediate-flush NIL
+|     :flush-interval  1
+|     :stream-owner    NIL
+|     :stream          #&lt;SB-SYS:FD-STREAM for &quot;standard output&quot; {1001D016C3}&gt;
+|     :message-count   0
+|     :filter          :INFO
+|
++-(2)-#&lt;STABLE-THIS-CONSOLE-APPENDER {10023FB1D3}&gt;
+      with #&lt;PLAIN-LAYOUT {10055B46D3}&gt;
+      :immediate-flush NIL
+      :flush-interval  1
+      :stream-owner    NIL
+      :stream          #&lt;SLYNK-GRAY::SLY-OUTPUT-STREAM {1001D00153}&gt;
+      :message-count   0
+      :filter          :WARN</code></pre><p>To change log level only for the <code>REPL</code>, call <code>(40ants-logging:setup-for-repl :level :warn)</code> function. If you will change log level via standard function of <code>LOG4CL</code>: <code>(log:config :warn)</code>, it will change the global logging level which will affect the backend's log in <code>JSON</code> format.</p><h2>API<a class=header-link
+     href=#x-2840ANTS-LOGGING-DOCS-2FINDEX-3A-3A-40API-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-LOGGING-DOCS-2FINDEX-3A-3A-40API-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/logging/blob/8c3957f7ef94be2caea0636605fe450ec5f17ac8/src/core.lisp#L38">function</a><div class=reference-object><div class=object-name><a href=#x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29 id=x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29>40ants-logging:setup-for-backend</a></div><div class=object-args><span class=locative-args>&amp;key (level \*default-level\*) (filename nil) (layout :json)</span></div></div><a class=bullet-link href=#x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29></a></div><div class=bullet-content><p>Configures <code>LOG4CL</code> for logging in <code>JSON</code> format.</p><p>Here we set for the root logger
+the same level as for the main appender.
+Usually this level will be higher than level
+for the <code>REPL</code> appender. We are doing this
+to not show <code>INFO</code> and <code>DEBUG</code> messages in the <code>REPL</code>
+by default if they are not logged by the main appender.</p><p>But you can use <code>LOG4SLY</code> to setup more verbose log
+levels for subcategories. For example, main appender
+can be configured to log <code>WARN</code>s and <code>REPL</code> appender
+configured to show <code>DEBUG</code>. But when you'll connect
+to the <code>REPL</code>, it will not be cluttered with <code>DEBUG</code>
+messages from the all packages, instead only <code>WARN</code>s and <code>ERROR</code>s
+will be logged to the <code>REPL</code> the same as they will be logged
+to the main appender. But if you want to debug some package,
+you can set <code>DEBUG</code> level for it using <code>LOG4SLY</code>.</p></div></div><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/logging/blob/8c3957f7ef94be2caea0636605fe450ec5f17ac8/src/core.lisp#L95">function</a><div class=reference-object><div class=object-name><a href=#x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29 id=x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29>40ants-logging:setup-for-cli</a></div><div class=object-args><span class=locative-args>&amp;key (level \*default-level\*)</span></div></div><a class=bullet-link href=#x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29></a></div><div class=bullet-content><p>Configures <code>LOG4CL</code> for logging in plain-text format with context fields support.</p></div></div><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/logging/blob/8c3957f7ef94be2caea0636605fe450ec5f17ac8/src/core.lisp#L122">function</a><div class=reference-object><div class=object-name><a href=#x-2840ANTS-LOGGING-3ASETUP-FOR-REPL-20FUNCTION-29 id=x-2840ANTS-LOGGING-3ASETUP-FOR-REPL-20FUNCTION-29>40ants-logging:setup-for-repl</a></div><div class=object-args><span class=locative-args>&amp;key (level :debug) (stream \*debug-io\*)</span></div></div><a class=bullet-link href=#x-2840ANTS-LOGGING-3ASETUP-FOR-REPL-20FUNCTION-29></a></div><div class=bullet-content><p>Configures <code>LOG4CL</code> for logging in <code>REPL</code> when you connect to the running lisp image already configured as a backend or <code>CLI</code> application.</p><p>If you are using <a href="https://40ants.com/slynk/#x-28-23A-28-2812-29-20BASE-CHAR-20-2E-20-2240ants-slynk-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29"><code>40ants-slynk</code></a> system, this function will be called automatically
+when your <code>SLY</code> connects to the image.</p></div></div><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/logging/blob/8c3957f7ef94be2caea0636605fe450ec5f17ac8/src/core.lisp#L149">function</a><div class=reference-object><div class=object-name><a href=#x-2840ANTS-LOGGING-3AREMOVE-REPL-APPENDER-20FUNCTION-29 id=x-2840ANTS-LOGGING-3AREMOVE-REPL-APPENDER-20FUNCTION-29>40ants-logging:remove-repl-appender</a></div></div><a class=bullet-link href=#x-2840ANTS-LOGGING-3AREMOVE-REPL-APPENDER-20FUNCTION-29></a></div><div class=bullet-content><p>Returns configuration the state as it was after <a href="https://40ants.com/logging/#x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29" data-document="https://40ants.com/logging/" data-node="x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29"><code>setup-for-backend</code></a> or <a href="https://40ants.com/logging/#x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29" data-document="https://40ants.com/logging/" data-node="x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29"><code>setup-for-cli</code></a> call.</p><p>If you are using <a href="https://40ants.com/slynk/#x-28-23A-28-2812-29-20BASE-CHAR-20-2E-20-2240ants-slynk-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29"><code>40ants-slynk</code></a> system, this function will be called automatically
+when your <code>SLY</code> disconnects from the image.</p></div></div>
+   </div><div class=footer>
+    <hr class=separator>
+    <p class=fineprint>Created with passion by <em>40Ants</em><a class=lisp-logo
+     href="http://lisp-lang.org/">
+      <img
+           src="https://40ants.com/img/made-with-lisp.svg"></a>
+   </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Ключ для localStorage
+  const STORAGE_KEY = '40ants-logging-docs-menu-state';
+  
+  // Загружаем сохраненное состояние меню
+  function loadMenuState() {
+    try {
+      const savedState = localStorage.getItem(STORAGE_KEY);
+      return savedState ? JSON.parse(savedState) : {};
+    } catch (e) {
+      console.error('Ошибка при загрузке состояния меню:', e);
+      return {};
+    }
+  }
+  
+  // Сохраняем текущее состояние меню
+  function saveMenuState(state) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {
+      console.error('Ошибка при сохранении состояния меню:', e);
+    }
+  }
+  
+  // Получаем уникальный идентификатор для пункта меню
+  function getMenuItemId(item) {
+    const link = item.querySelector('a');
+    if (!link) return null;
+    
+    // Используем текст ссылки как идентификатор
+    // Можно также использовать href, но он может меняться в зависимости от текущей страницы
+    return link.innerText.trim();
+  }
+  
+  // Загружаем сохраненное состояние
+  const menuState = loadMenuState();
+  
+  // Находим все пункты меню с подпунктами
+  const menuItems = document.querySelectorAll('.sidebar li');
+  
+  // Обрабатываем каждый пункт меню
+  menuItems.forEach(item => {
+    const subMenu = item.querySelector('ul');
+    
+    // Если у пункта есть подменю
+    if (subMenu) {
+      const itemId = getMenuItemId(item);
+      item.classList.add('has-children');
+      
+      // Восстанавливаем состояние из localStorage, если оно сохранено
+      if (itemId && menuState[itemId]) {
+        item.classList.add('expanded');
+      }
+      
+      // Добавляем обработчик клика
+      const link = item.querySelector('a');
+      if (link) {
+        link.addEventListener('click', function(e) {
+          // Останавливаем переход по ссылке только если кликнули по пункту с подменю
+          if (item.classList.contains('has-children')) {
+            e.preventDefault();
+            
+            // Переключаем класс для раскрытия/скрытия
+            item.classList.toggle('expanded');
+            
+            // Сохраняем новое состояние
+            if (itemId) {
+              if (item.classList.contains('expanded')) {
+                menuState[itemId] = true;
+              } else {
+                delete menuState[itemId];
+              }
+              saveMenuState(menuState);
+            }
+          }
+        });
+      }
+    }
+  });
+  
+  // Функция для поиска и раскрытия родителей активного пункта
+  function expandActiveItemParents() {
+    const activeItem = document.querySelector('.sidebar li.active');
+    if (activeItem) {
+      let parent = activeItem.parentElement;
+      
+      while (parent) {
+        if (parent.tagName === 'UL' && parent.parentElement && parent.parentElement.tagName === 'LI') {
+          parent.parentElement.classList.add('expanded');
+          parent.parentElement.classList.add('active-parent');
+          
+          // Сохраняем состояние активного родителя
+          const parentItem = parent.parentElement;
+          const parentId = getMenuItemId(parentItem);
+          if (parentId) {
+            menuState[parentId] = true;
+          }
+        }
+        parent = parent.parentElement;
+      }
+      
+      // Сохраняем обновленное состояние после раскрытия активных родителей
+      saveMenuState(menuState);
+    }
+  }
+  
+  // Запускаем функцию для текущей страницы
+  expandActiveItemParents();
+});
+</script>
+
+
+  </div>
+ </body>
+</html>

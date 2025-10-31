@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<rss version="2.0">
+    <channel>
+        <title>40ants-logging-docs ChangeLog</title>
+        <link>https://40ants.com/logging/</link>
+        <generator>xml-emitter</generator>
+        <language>en-us</language>
+        <item>
+            <title>0.4.0  (2025-10-31)</title>
+            <description>&lt;h1 id=&quot;changed&quot;&gt;Changed&lt;/h1&gt;&lt;ul&gt;&lt;li&gt;&lt;p&gt;Function &lt;a href=&quot;https://40ants.com/logging/#x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29&quot; data-document=&quot;https://40ants.com/logging/&quot; data-node=&quot;x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29&quot;&gt;&lt;code&gt;40ants-logging:setup-for-backend&lt;/code&gt;&lt;/a&gt; now accepts filename and layout keyword arguments.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Fri, 31 Oct 2025 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.3.0  (2025-01-12)</title>
+            <description>&lt;h1 id=&quot;changed&quot;&gt;Changed&lt;/h1&gt;&lt;ul&gt;&lt;li&gt;&lt;p&gt;Now &lt;a href=&quot;https://40ants.com/logging/#x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29&quot; data-document=&quot;https://40ants.com/logging/&quot; data-node=&quot;x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29&quot;&gt;&lt;code&gt;40ants-logging:setup-for-backend&lt;/code&gt;&lt;/a&gt; function and &lt;a href=&quot;https://40ants.com/logging/#x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29&quot; data-document=&quot;https://40ants.com/logging/&quot; data-node=&quot;x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29&quot;&gt;&lt;code&gt;40ants-logging:setup-for-cli&lt;/code&gt;&lt;/a&gt; function set the given level not only for appender but also for a root logger, preventing &lt;code&gt;REPL&lt;/code&gt; pollution with all debug logs.&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Also, &lt;a href=&quot;https://40ants.com/logging/#x-2840ANTS-LOGGING-3ASETUP-FOR-REPL-20FUNCTION-29&quot; data-document=&quot;https://40ants.com/logging/&quot; data-node=&quot;x-2840ANTS-LOGGING-3ASETUP-FOR-REPL-20FUNCTION-29&quot;&gt;&lt;code&gt;40ants-logging:setup-for-repl&lt;/code&gt;&lt;/a&gt; function now uses &lt;code&gt;:DEBUG&lt;/code&gt; as default for &lt;code&gt;:LEVEL&lt;/code&gt; argument. This way you only need to set needed log level for selected packages using &lt;code&gt;LOG4SLY&lt;/code&gt; and Emacs.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Sun, 12 Jan 2025 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.2.0  (2024-11-20)</title>
+            <description>&lt;h1 id=&quot;changed&quot;&gt;Changed&lt;/h1&gt;&lt;ul&gt;&lt;li&gt;&lt;p&gt;Now &lt;a href=&quot;https://40ants.com/logging/#x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29&quot; data-document=&quot;https://40ants.com/logging/&quot; data-node=&quot;x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29&quot;&gt;&lt;code&gt;40ants-logging:setup-for-backend&lt;/code&gt;&lt;/a&gt; function and &lt;a href=&quot;https://40ants.com/logging/#x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29&quot; data-document=&quot;https://40ants.com/logging/&quot; data-node=&quot;x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29&quot;&gt;&lt;code&gt;40ants-logging:setup-for-cli&lt;/code&gt;&lt;/a&gt; function keep nested loggers. This way you will not loose setup made by &lt;code&gt;LOG4SLY&lt;/code&gt; or &lt;code&gt;LOG4SLYNK&lt;/code&gt; interactively.&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Also, setup functions now keeps original appender&apos;s stream, which prevents from occational disruption of the base logging process.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Wed, 20 Nov 2024 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.1.0  (2023-02-05)</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;Initial version.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Sun, 05 Feb 2023 00:00:00 +0000</pubDate>
+        </item>
+    </channel>
+</rss>
