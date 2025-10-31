@@ -128,19 +128,36 @@ To change log level only for the `REPL`, call `(40ants-logging:setup-for-repl :l
 
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29"></a>
 
-### [function](4889) `40ants-logging:setup-for-backend` &key (level \*default-level\*)
+### [function](675e) `40ants-logging:setup-for-backend` &key (level \*default-level\*) (filename nil) (layout :json)
 
 Configures `LOG4CL` for logging in `JSON` format.
 
+Here we set for the root logger
+the same level as for the main appender.
+Usually this level will be higher than level
+for the `REPL` appender. We are doing this
+to not show `INFO` and `DEBUG` messages in the `REPL`
+by default if they are not logged by the main appender.
+
+But you can use `LOG4SLY` to setup more verbose log
+levels for subcategories. For example, main appender
+can be configured to log `WARN`s and `REPL` appender
+configured to show `DEBUG`. But when you'll connect
+to the `REPL`, it will not be cluttered with `DEBUG`
+messages from the all packages, instead only `WARN`s and `ERROR`s
+will be logged to the `REPL` the same as they will be logged
+to the main appender. But if you want to debug some package,
+you can set `DEBUG` level for it using `LOG4SLY`.
+
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29"></a>
 
-### [function](abec) `40ants-logging:setup-for-cli` &key (level \*default-level\*)
+### [function](5c8f) `40ants-logging:setup-for-cli` &key (level \*default-level\*)
 
 Configures `LOG4CL` for logging in plain-text format with context fields support.
 
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-REPL-20FUNCTION-29"></a>
 
-### [function](4435) `40ants-logging:setup-for-repl` &key (level :debug) (stream \*debug-io\*)
+### [function](8d1b) `40ants-logging:setup-for-repl` &key (level :debug) (stream \*debug-io\*)
 
 Configures `LOG4CL` for logging in `REPL` when you connect to the running lisp image already configured as a backend or `CLI` application.
 
@@ -149,7 +166,7 @@ when your `SLY` connects to the image.
 
 <a id="x-2840ANTS-LOGGING-3AREMOVE-REPL-APPENDER-20FUNCTION-29"></a>
 
-### [function](a05a) `40ants-logging:remove-repl-appender`
+### [function](02df) `40ants-logging:remove-repl-appender`
 
 Returns configuration the state as it was after [`setup-for-backend`][d0af] or [`setup-for-cli`][78f4] call.
 
@@ -165,10 +182,10 @@ when your `SLY` disconnects from the image.
 [04ac]: https://40ants.com/slynk/#x-28-23A-28-2812-29-20BASE-CHAR-20-2E-20-2240ants-slynk-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29
 [0aac]: https://github.com/40ants/logging
 [2779]: https://github.com/40ants/logging/actions
-[4435]: https://github.com/40ants/logging/blob/aec98451cfc1581485c475243fb561cb27f26443/src/core.lisp#L108
-[a05a]: https://github.com/40ants/logging/blob/aec98451cfc1581485c475243fb561cb27f26443/src/core.lisp#L135
-[4889]: https://github.com/40ants/logging/blob/aec98451cfc1581485c475243fb561cb27f26443/src/core.lisp#L38
-[abec]: https://github.com/40ants/logging/blob/aec98451cfc1581485c475243fb561cb27f26443/src/core.lisp#L81
+[8d1b]: https://github.com/40ants/logging/blob/8c3957f7ef94be2caea0636605fe450ec5f17ac8/src/core.lisp#L122
+[02df]: https://github.com/40ants/logging/blob/8c3957f7ef94be2caea0636605fe450ec5f17ac8/src/core.lisp#L149
+[675e]: https://github.com/40ants/logging/blob/8c3957f7ef94be2caea0636605fe450ec5f17ac8/src/core.lisp#L38
+[5c8f]: https://github.com/40ants/logging/blob/8c3957f7ef94be2caea0636605fe450ec5f17ac8/src/core.lisp#L95
 [cd63]: https://github.com/40ants/logging/issues
 [07be]: https://quickdocs.org/global-vars
 [691c]: https://quickdocs.org/log4cl-extras
