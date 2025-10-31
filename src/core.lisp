@@ -32,10 +32,10 @@
        (resolve-synonyms
         (symbol-value (synonym-stream-symbol stream))))
     (t
-       stream)))
+     stream)))
 
 
-(defun setup-for-backend (&key (level *default-level*))
+(defun setup-for-backend (&key (level *default-level*) (filename nil) (layout :json))
   "Configures LOG4CL for logging in JSON format.
 
    Here we set for the root logger
@@ -54,13 +54,25 @@
    will be logged to the REPL the same as they will be logged
    to the main appender. But if you want to debug some package,
    you can set DEBUG level for it using LOG4SLY."
+
+  (check-type level keyword)
+  (check-type filename (or null pathname))
+  (check-type layout (member :json :plain))
+  
   (setf *level* level)
   (setf *core-appenders*
-        (list (list 'this-console
-                    :stream (or (get-original-stream)
-                                (resolve-synonyms *standard-output*))
-                    :layout :json
-                    :filter level)))
+        (list (cond
+                (filename
+                 (list 'file
+                       :file filename
+                       :layout layout
+                       :filter level))
+                (t
+                 (list 'this-console
+                       :stream (or (get-original-stream)
+                                   (resolve-synonyms *standard-output*))
+                       :layout :json
+                       :filter level)))))
   
   (let ((children (log4cl::%logger-child-hash log4cl:*root-logger*)))
     

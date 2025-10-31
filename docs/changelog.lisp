@@ -11,6 +11,12 @@
                               "LOG4SLY"
                               "LOG4SLYNK"
                               "HTTP"))
+  (0.4.0 2025-10-31
+         "
+## Changed
+
+* Function 40ANTS-LOGGING:SETUP-FOR-BACKEND now accepts filename and layout keyword arguments.
+")
   (0.3.0 2025-01-12
          "
 ## Changed
