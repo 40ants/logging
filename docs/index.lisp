@@ -57,9 +57,9 @@
                                    "STDOUT"
                                    "LOG:CONFIG"
                                    "CLI"
-                                   "40Ants")
-                    :external-docs ("https://40ants.com/log4cl-extras/"
-                                    "https://40ants.com/slynk/"))
+                                   "40Ants"
+                                   "40ANTS-SLYNK"
+                                   "LOG4CL-EXTRAS/CONTEXT:WITH-FIELDS"))
   (40ants-logging system)
   "
 [![](https://github-actions.40ants.com/40ants/logging/matrix.svg?only=ci.run-tests)](https://github.com/40ants/logging/actions)
