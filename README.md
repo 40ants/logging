@@ -64,6 +64,15 @@ For a backend you need to call [`40ants-logging:setup-for-backend`][d0af] functi
 
 For a command line utilities we are configuring `LOG4CL` to use plaintext format. Call [`40ants-logging:setup-for-cli`][78f4] to make the job. Why `LOG:CONFIG` is not enought? `LOG:CONFIG` uses `LOG4CL` appenders which are not aware of fields added by structured logging macro [`log4cl-extras/context:with-fields`][b464].
 
+After each logging configuration change, all funcallable values from `40ANTS-LOGGING:*ON-CHANGE-HOOKS*` are invoked in order. This lets you restore package-specific levels after calls like [`40ants-logging:setup-for-backend`][d0af]:
+
+```lisp
+(setf 40ANTS-LOGGING:*ON-CHANGE-HOOKS*
+      (list (lambda ()
+              (log:config '(sento) :warn)
+              (log:config '(chipi) :warn))))
+```
+
 You can also build an example app to test how this logging works:
 
 ```
@@ -125,6 +134,12 @@ To change log level only for the `REPL`, call `(40ants-logging:setup-for-repl :l
 <a id="x-2840ANTS-LOGGING-DOCS-2FINDEX-3A-3A-40API-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
 ## API
+
+<a id="x-2840ANTS-LOGGING-3A-2AON-CHANGE-HOOKS-2A-20VARIABLE-29"></a>
+
+### [variable](hooks) `40ants-logging:*on-change-hooks*`
+
+A list of callbacks invoked after a logging configuration change.
 
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29"></a>
 

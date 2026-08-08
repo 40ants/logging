@@ -11,6 +11,12 @@
                               "LOG4SLY"
                               "LOG4SLYNK"
                               "HTTP"))
+  (0.5.0 2026-08-08
+         "
+## Added
+
+* Variable 40ANTS-LOGGING:*ON-CHANGE-HOOKS* to run custom callbacks after logging configuration changes such as SETUP-FOR-BACKEND, SETUP-FOR-CLI, SETUP-FOR-REPL, and REMOVE-REPL-APPENDER.
+")
   (0.4.0 2025-10-31
          "
 ## Changed
