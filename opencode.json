@@ -1,0 +1,14 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "skills": {
+        "paths": [
+            ".agents/skills"
+        ]
+    },
+    "mcp": {
+        "lisp-dev-mcp": {
+            "type": "remote",
+            "url": "http://localhost:40000/mcp"
+        }
+    }
+}
