@@ -52,7 +52,7 @@ In the second mode, a developer has connected to the app and wants to be able to
 We define two log appenders for these two modes:
 
 * main log appender writes logs in regular mode.
-* repl log appender can be added when `REPL` is enabled. This is done automatically if you start Slynk using `40ANTS-SLYNK` system.
+* repl log appender can be added when `REPL` is enabled. This is done automatically if you start Slynk using [`40ants-slynk`][04ac] system.
 
 Note, a developer don't need to see all `INFO` and `DEBUG` logs but only these logs from some package. So, we keep root logger's level the same as was specified for the main log appender. For example, imagine the main appender was configured to log `WARN` and `INFO`, but `REPL` appender configured to show `DEBUG`. When you'll connect to the `REPL`, it will not be cluttered with `DEBUG` messages from the all packages, instead only `WARN` and `ERROR` will be logged to the `REPL` the same as they will be logged to the main appender. But if you want to debug some package, you can set `DEBUG` level for this package only using `LOG4SLY`.
 
@@ -62,16 +62,8 @@ Note, a developer don't need to see all `INFO` and `DEBUG` logs but only these l
 
 For a backend you need to call [`40ants-logging:setup-for-backend`][d0af] function. It configures `LOG4CL` to output all logs to `STDOUT` in `JSON` format. We are doing this because these days most backends are running in the Docker or Kubernetes where easiest way to collect logs is to capture daemon's `STDOUT`.
 
-For a command line utilities we are configuring `LOG4CL` to use plaintext format. Call [`40ants-logging:setup-for-cli`][78f4] to make the job. Why `LOG:CONFIG` is not enought? `LOG:CONFIG` uses `LOG4CL` appenders which are not aware of fields added by structured logging macro `LOG4CL-EXTRAS/CONTEXT:WITH-FIELDS`.
+For a command line utilities we are configuring `LOG4CL` to use plaintext format. Call [`40ants-logging:setup-for-cli`][78f4] to make the job. Why `LOG:CONFIG` is not enought? `LOG:CONFIG` uses `LOG4CL` appenders which are not aware of fields added by structured logging macro [`log4cl-extras/context:with-fields`][b464].
 
-After each logging configuration change, all funcallable values from [`40ants-logging:*on-change-hooks*`][8559] are invoked in order. This lets you restore package-specific levels after calls like [`40ants-logging:setup-for-backend`][d0af]:
-
-```lisp
-(setf 40ANTS-LOGGING:*ON-CHANGE-HOOKS*
-      (list (lambda ()
-              (log:config '(sento) :warn)
-              (log:config '(chipi) :warn))))
-```
 You can also build an example app to test how this logging works:
 
 ```
@@ -104,7 +96,7 @@ and for backend mode:
 {"fields":{"logger":"40ants-logging-example/cli","func":"run-backend-loop","file":"cli.lisp","request-id":"120002","iteration":1},"level":"INFO","message":"Sleeping 15 seconds","timestamp":"2023-03-05T10:46:27.822530Z"}
 ...
 ```
-If you are using `40ANTS-SLYNK` system to setup a Slynk server, then [`40ants-logging:setup-for-repl`][d1f2] function will be called automatically on connect to the repl. You can observe logging configuration by like this:
+If you are using [`40ants-slynk`][04ac] system to setup a Slynk server, then [`40ants-logging:setup-for-repl`][d1f2] function will be called automatically on connect to the repl. You can observe logging configuration by like this:
 
 ```
 CL-USER> (log:config)
@@ -134,15 +126,9 @@ To change log level only for the `REPL`, call `(40ants-logging:setup-for-repl :l
 
 ## API
 
-<a id="x-2840ANTS-LOGGING-3A-2AON-CHANGE-HOOKS-2A-20-28VARIABLE-29-29"></a>
-
-### [variable](2395) `40ants-logging:*on-change-hooks*` nil
-
-A list of callbacks invoked after a logging configuration change.
-
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29"></a>
 
-### [function](6807) `40ants-logging:setup-for-backend` &key (level \*default-level\*) (filename nil) (layout :json)
+### [function](675e) `40ants-logging:setup-for-backend` &key (level \*default-level\*) (filename nil) (layout :json)
 
 Configures `LOG4CL` for logging in `JSON` format.
 
@@ -165,41 +151,41 @@ you can set `DEBUG` level for it using `LOG4SLY`.
 
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29"></a>
 
-### [function](a62e) `40ants-logging:setup-for-cli` &key (level \*default-level\*)
+### [function](5c8f) `40ants-logging:setup-for-cli` &key (level \*default-level\*)
 
 Configures `LOG4CL` for logging in plain-text format with context fields support.
 
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-REPL-20FUNCTION-29"></a>
 
-### [function](1a67) `40ants-logging:setup-for-repl` &key (level :debug) (stream \*debug-io\*)
+### [function](8d1b) `40ants-logging:setup-for-repl` &key (level :debug) (stream \*debug-io\*)
 
 Configures `LOG4CL` for logging in `REPL` when you connect to the running lisp image already configured as a backend or `CLI` application.
 
-If you are using `40ANTS-SLYNK` system, this function will be called automatically
+If you are using [`40ants-slynk`][04ac] system, this function will be called automatically
 when your `SLY` connects to the image.
 
 <a id="x-2840ANTS-LOGGING-3AREMOVE-REPL-APPENDER-20FUNCTION-29"></a>
 
-### [function](e025) `40ants-logging:remove-repl-appender`
+### [function](02df) `40ants-logging:remove-repl-appender`
 
 Returns configuration the state as it was after [`setup-for-backend`][d0af] or [`setup-for-cli`][78f4] call.
 
-If you are using `40ANTS-SLYNK` system, this function will be called automatically
+If you are using [`40ants-slynk`][04ac] system, this function will be called automatically
 when your `SLY` disconnects from the image.
 
 
+[b464]: https://40ants.com/log4cl-extras/#x-28LOG4CL-EXTRAS-2FCONTEXT-3AWITH-FIELDS-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29
 [3eb9]: https://40ants.com/logging/
-[8559]: https://40ants.com/logging/#x-2840ANTS-LOGGING-3A-2AON-CHANGE-HOOKS-2A-20-28VARIABLE-29-29
 [d0af]: https://40ants.com/logging/#x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29
 [78f4]: https://40ants.com/logging/#x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29
 [d1f2]: https://40ants.com/logging/#x-2840ANTS-LOGGING-3ASETUP-FOR-REPL-20FUNCTION-29
+[04ac]: https://40ants.com/slynk/#x-28-23A-28-2812-29-20BASE-CHAR-20-2E-20-2240ants-slynk-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29
 [0aac]: https://github.com/40ants/logging
 [2779]: https://github.com/40ants/logging/actions
-[a62e]: https://github.com/40ants/logging/blob/dc862df4dda7df0585c79654bec4be032c660128/src/core.lisp#L112
-[1a67]: https://github.com/40ants/logging/blob/dc862df4dda7df0585c79654bec4be032c660128/src/core.lisp#L140
-[e025]: https://github.com/40ants/logging/blob/dc862df4dda7df0585c79654bec4be032c660128/src/core.lisp#L168
-[2395]: https://github.com/40ants/logging/blob/dc862df4dda7df0585c79654bec4be032c660128/src/core.lisp#L24
-[6807]: https://github.com/40ants/logging/blob/dc862df4dda7df0585c79654bec4be032c660128/src/core.lisp#L54
+[8d1b]: https://github.com/40ants/logging/blob/8c3957f7ef94be2caea0636605fe450ec5f17ac8/src/core.lisp#L122
+[02df]: https://github.com/40ants/logging/blob/8c3957f7ef94be2caea0636605fe450ec5f17ac8/src/core.lisp#L149
+[675e]: https://github.com/40ants/logging/blob/8c3957f7ef94be2caea0636605fe450ec5f17ac8/src/core.lisp#L38
+[5c8f]: https://github.com/40ants/logging/blob/8c3957f7ef94be2caea0636605fe450ec5f17ac8/src/core.lisp#L95
 [cd63]: https://github.com/40ants/logging/issues
 [07be]: https://quickdocs.org/global-vars
 [691c]: https://quickdocs.org/log4cl-extras

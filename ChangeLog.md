@@ -2,16 +2,6 @@
 
 # ChangeLog
 
-<a id="x-2840ANTS-LOGGING-DOCS-2FCHANGELOG-3A-3A-7C0-2E5-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
-
-## 0.5.0 (2026-08-08)
-
-<a id="added"></a>
-
-### Added
-
-* Variable [`40ants-logging:*on-change-hooks*`][8559] to run custom callbacks after logging configuration changes such as [`40ants-logging:setup-for-backend`][d0af], [`40ants-logging:setup-for-cli`][78f4], [`40ants-logging:setup-for-repl`][d1f2], and [`40ants-logging:remove-repl-appender`][499f].
-
 <a id="x-2840ANTS-LOGGING-DOCS-2FCHANGELOG-3A-3A-7C0-2E4-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
 ## 0.4.0 (2025-10-31)
@@ -51,8 +41,6 @@
 * Initial version.
 
 
-[8559]: https://40ants.com/logging/#x-2840ANTS-LOGGING-3A-2AON-CHANGE-HOOKS-2A-20-28VARIABLE-29-29
-[499f]: https://40ants.com/logging/#x-2840ANTS-LOGGING-3AREMOVE-REPL-APPENDER-20FUNCTION-29
 [d0af]: https://40ants.com/logging/#x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29
 [78f4]: https://40ants.com/logging/#x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29
 [d1f2]: https://40ants.com/logging/#x-2840ANTS-LOGGING-3ASETUP-FOR-REPL-20FUNCTION-29
