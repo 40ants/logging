@@ -6,3 +6,7 @@ docs/build/
 logging-example
 .clpm/
 *.fasl
+
+
+# APM dependencies
+apm_modules/
