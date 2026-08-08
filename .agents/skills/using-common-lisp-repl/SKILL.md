@@ -39,6 +39,15 @@ For a package-inferred file `src/session.lisp` of system `myapp` (package `myapp
 ```
 Existing in-memory instances of the old type become orphaned — recreate them.
 
+## Register a local project explicitly
+If ASDF in the live image does not know about the current checkout, add it to the central registry first:
+```lisp
+(pushnew #P"/path/to/project/"
+         asdf:*central-registry*
+         :test #'equal)
+```
+Do this before `asdf:load-system` or `asdf:test-system` when the image was started outside the project wrapper.
+
 ## Capture output that goes to `*standard-output*`
 Some forms (notably test runners) print their report to stdout and return a different value. Capture it:
 ```lisp
@@ -54,10 +63,19 @@ See also **testing-with-rove**.
 ```
 Useful before reading or stepping through a Quicklisp-installed library. Never edit files under `.qlot/` — they are third-party.
 
+## Docs/debugging workflow from the REPL
+The live image is also useful for reproducing docs and test problems when wrapper scripts are missing locally:
+```lisp
+(asdf:test-system "myapp")
+(docs-builder:build "myapp-docs")
+```
+Treat this as a diagnostic tool. A local REPL failure caused by SSL/network access to external docs is an environment issue unless CI reproduces it.
+
 ## Quick Reference
 | Task | Form |
 |---|---|
 | Guard against hangs | `(sb-sys:with-deadline (:seconds 10) ...)` |
+| Register local checkout | `(pushnew #P"/path/to/project/" asdf:*central-registry* :test #'equal)` |
 | Reload one file | `(asdf:load-system "myapp" :force '("myapp/src/foo"))` |
 | Redefine struct → class | `(delete-package :myapp/src/foo)` then `load-system` with `:force '("file")` |
 | Capture stdout | `(with-output-to-string (*standard-output*) ...)` |
@@ -67,6 +85,7 @@ Useful before reading or stepping through a Quicklisp-installed library. Never e
 | Symptom | Fix |
 |---|---|
 | Used `sb-ext:with-timeout` | Prefer `sb-sys:with-deadline` — deadline propagates through nested calls and is the workspace convention |
+| `asdf:test-system` / `load-system` says the system is missing | Add the checkout to `asdf:*central-registry*` first |
 | `defstruct` → `defclass` errors, or old accessors linger after reload | `(delete-package :pkg)` first, then `load-system :force '("file")` — not just `(setf (find-class) nil)` |
 | `:force t` recompiles the whole system | Pass a list of files: `:force '("myapp/src/foo")` |
 | Spawned a new `sbcl` from the shell | Use the live image via the MCP eval tool instead |

@@ -43,6 +43,20 @@ CLOS identifies a method by `(generic-function, qualifiers, specializer-list)`. 
 
 Before adding a `defmethod` on a generic from a dependency, check whether the base already defines a method with identical specializers — otherwise yours silently overrides it and callers get your return type unexpectedly.
 
+## `define-global-var` is not ordinary `let`-bindable state
+Globals created with `global-vars:define-global-var` are a recurring trap in tests and temporary overrides. Treat them as mutable process-wide state, not as ordinary specials you can safely rebind with `let`.
+
+For temporary overrides, prefer:
+```lisp
+(let ((old-value *some-global*))
+  (unwind-protect
+       (progn
+         (setf *some-global* new-value)
+         ...)
+    (setf *some-global* old-value)))
+```
+If you try `(let ((*some-global* ...)) ...)`, compilation may fail or behavior may differ from ordinary special variables.
+
 ## Parenthesis balance in large files
 Don't write functions over ~100 lines; split into helpers. Before `load-system` on a freshly edited file, check paren balance with the bundled tool:
 
@@ -66,6 +80,7 @@ Negative depth at line N → extra `)` on that line. Non-zero final depth → mi
 | `NO-APPLICABLE-METHOD-ERROR` on a keyword (`SILO`) from `event-emitter:on` / `emit` | Swap to event-first: `(on :event object handler)` |
 | `event-emitter:remove-listener` not finding the handler | It is object-first: `(remove-listener object :event handler)` |
 | Your `defmethod` silently shadows one from a dependency | Check for existing same-specializer methods first; rename or change specializers |
+| A `define-global-var` global cannot be used in `LET` | Save/restore with `setf` + `unwind-protect` instead of rebinding |
 | `SYMBOL-PACKAGE-LOCKED-ERROR` loading a `defmain` subcommand | `(:shadow #:list)` in `defpackage`, or pick a non-CL name |
 | `(subcommand)` → `UNBOUND-VARIABLE` | Use `(defmain:subcommand)` |
 | Subcommand sees unbound parent-arg symbols | `(:import-from #:parent/pkg #:model #:output ...)` in the subcommand package |

@@ -67,6 +67,8 @@ Use `serapeum:->` for signatures. Use `(declare (ignore var))` for unused parame
 ## Formatting
 Google Common Lisp Style Guide: 2-space indent, ≤100 columns, no tabs, lower-case `lisp-case`. Predicates end in `-p`; specials are `*earmuffs*`; constants are `+plus+`. Docstrings are required on public APIs.
 
+For exported variables and public extension points, the docstring should state the behavioral contract, not just the type. If a public hook list ignores non-funcallable elements, say so explicitly in the variable docstring.
+
 ## Common Mistakes
 | Symptom | Fix |
 |---|---|
@@ -75,6 +77,7 @@ Google Common Lisp Style Guide: 2-space indent, ≤100 columns, no tabs, lower-c
 | `(:use #:serapeum)` or `(:use #:some-lib)` | Replace with `:local-nicknames` or `:import-from` of only the symbols used |
 | Keyword-style `loop` (`:for`, `:do`, `:while`) | Drop the keywords: `(loop for x ... while ... do ...)` |
 | `(error "boom")` bare string | `(error "boom: ~A" val)` with format args |
+| Exported variable lacks a docstring or behavior contract | Add a docstring describing semantics, especially for hooks/configuration variables |
 
 ## Related skills
 For CLOS classes and constructors: **defining-clos-classes**. For subtle language gotchas when writing new or large code: **avoiding-common-lisp-pitfalls**. For interactive reload after edits: **using-common-lisp-repl**.

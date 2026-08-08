@@ -162,6 +162,15 @@ and rebuild. Never leave a documentation change unverified.
 
 The `:ignore-words` set on `@index` propagates to all subsections, including `@api` when included via `(@api section)`. Add commonly used ALL-CAPS terms (tool names, protocols, acronyms) there.
 
+### Preserve `:external-docs`
+
+If a project already uses `:external-docs` on a `defsection`, do **not** remove it just to silence XREF warnings or to work around a local network/SSL problem. `:external-docs` powers cross-library references and is part of the documentation's functionality.
+
+When warnings mention symbols from another library:
+- first prefer fully-qualified references (`my-lib:foo` instead of bare `FOO`) when the text refers to a documented external symbol;
+- if the text is only mentioning a name and should not become a link, add it to `:ignore-words`;
+- treat local failures fetching external references as an environment issue unless CI reproduces them.
+
 ### `defautodoc` Package Filtering
 
 Use `:ignore-packages` to exclude internal packages from autodoc:
@@ -214,6 +223,19 @@ describe behavior, not documentation:
 
 The source image should live at `project-root/images/demo.gif`.
 
+## Generated Files Policy
+
+`README.md` and `ChangeLog.md` are generated artifacts. Regenerate them locally to validate documentation changes, but do **not** automatically include them in a pull request if the project's CI regenerates them itself and the team prefers to keep PRs focused on source docs (`docs/*.lisp` and code/docstrings).
+
+Before committing:
+- check whether the repository convention is to commit generated docs or let CI update them;
+- if CI owns regeneration, revert generated-file diffs before pushing the branch;
+- do not "fix" source-doc warnings by editing generated markdown directly.
+
 ## When Sources Are Not Compiled After Changes
 
 If `build-docs` does not pick up source changes (docstrings, defgeneric forms, etc.), the fasl cache is stale. See the [clearing-asdf-fasl-cache](../clearing-asdf-fasl-cache/SKILL.md) skill.
+
+## Local Validation Without `.qlot/bin/build-docs`
+
+If the project-local `build-docs` wrapper is missing but you have a live Lisp image with the needed systems loaded, you can still validate the docs source by loading the docs system and invoking the builder from the REPL. Use this as a local diagnostic aid, not as a reason to change project policy around generated files.

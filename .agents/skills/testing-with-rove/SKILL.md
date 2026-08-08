@@ -49,6 +49,24 @@ The wrong form silently misbehaves: it evaluates `'my-error` (which does not sig
 - Add brand-new test files to the test system's ASDF components when not auto-inferred.
 - Write the failing test before the implementation.
 
+## Resetting global state safely
+If the code under test uses `global-vars:define-global-var`, do **not** try to rebind it with `let`. Save the old value, `setf` the test value, and restore it with `unwind-protect`:
+```lisp
+(let ((old-value *some-global*))
+  (unwind-protect
+       (progn
+         (setf *some-global* :test-value)
+         ...)
+    (setf *some-global* old-value)))
+```
+This matters for logging/configuration code where tests need temporary global hooks or appenders.
+
+## Reloading tests in a live image
+After editing a test file in the REPL workflow, force just that test file instead of recompiling the whole system:
+```lisp
+(asdf:load-system "myapp-tests" :force '("myapp-tests/core"))
+```
+
 ## Testing internal (`%`-prefixed) functions
 Private functions named like `%helper` cannot be referenced from the test package. To test them:
 ```lisp
@@ -63,6 +81,7 @@ The `%` prefix already signals "internal"; exporting it for tests is accepted pr
 | Symptom | Fix |
 |---|---|
 | `(signals 'my-error (do-thing))` — test passes/fails for the wrong reason | Swap to `(signals (do-thing) 'my-error` — form first, type second |
+| `LET` on a `define-global-var` global fails or behaves strangely | Use `setf` + `unwind-protect`, not dynamic rebinding |
 | `rove:run-test` output not visible | Wrap in `(with-output-to-string (*standard-output*) ...)` |
 | Cannot reference `%helper` from tests | `(:export #:%helper)` in source, `(:import-from ...)` in test |
 | New test file not picked up | Add it to the test system's ASDF components |
