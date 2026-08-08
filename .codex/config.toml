@@ -1,0 +1,8 @@
+# Codex project config migrated from opencode.json
+
+[mcp_servers.lisp-dev-mcp]
+url = "http://localhost:40000/mcp"
+
+[mcp_servers.lisp-dev-mcp.tools.eval_lisp_form]
+approval_mode = "approve"
+

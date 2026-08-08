@@ -7,7 +7,8 @@
   (:export #:setup-for-backend
            #:setup-for-cli
            #:setup-for-repl
-           #:remove-repl-appender))
+           #:remove-repl-appender
+           #:*on-change-hooks*))
 (in-package #:40ants-logging)
 
 
@@ -19,6 +20,9 @@
 
 (define-global-var *level* nil
   "Level given to the last call to SETUP-FOR-BACKEND or SETUP-FOR-CLI functions.")
+
+(define-global-var *on-change-hooks* nil
+  "A list of callbacks invoked after a logging configuration change.")
 
 
 (defun get-original-stream ()
@@ -33,6 +37,18 @@
         (symbol-value (synonym-stream-symbol stream))))
     (t
      stream)))
+
+
+(defun funcallablep (object)
+  (or (typep object 'function)
+      (and (symbolp object)
+           (fboundp object))))
+
+
+(defun call-on-change-hooks ()
+  (loop for hook in *on-change-hooks*
+        when (funcallablep hook)
+          do (funcall hook)))
 
 
 (defun setup-for-backend (&key (level *default-level*) (filename nil) (layout :json))
@@ -89,6 +105,7 @@
     ;; want to loose these settings:
     (setf (log4cl::%logger-child-hash log4cl:*root-logger*)
           children))
+  (call-on-change-hooks)
   (values))
 
 
@@ -116,6 +133,7 @@
     ;; want to loose these settings:
     (setf (log4cl::%logger-child-hash log4cl:*root-logger*)
           children))
+  (call-on-change-hooks)
   (values))
 
 
@@ -143,6 +161,7 @@
     ;; want to loose these settings:
     (setf (log4cl::%logger-child-hash log4cl:*root-logger*)
           children))
+  (call-on-change-hooks)
   (values))
 
 
@@ -153,4 +172,6 @@
    when your SLY disconnects from the image."
   (log4cl-extras/config:setup
      (list :level :debug
-           :appenders *core-appenders*)))
+           :appenders *core-appenders*))
+  (call-on-change-hooks)
+  (values))
