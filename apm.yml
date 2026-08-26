@@ -6,10 +6,15 @@ author: Alexander Artemenko
 # Resolution order: --target flag > this field > auto-detect from filesystem.
 # Accepted values: agent-skills, antigravity, claude, codex, copilot, cursor, gemini, grok-build, kiro, opencode, windsurf
 targets:
-  - codex
+  - agent-skills
 dependencies:
   apm:
     - 40ants/ai/plugins/common-lisp-skills
+    - git: obra/superpowers
+      skills:
+        - brainstorming
+        - dispatching-parallel-agents
+        - systematic-debugging
   mcp: []
 includes: auto
 scripts: {}
