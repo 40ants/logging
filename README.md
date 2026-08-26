@@ -136,13 +136,13 @@ To change log level only for the `REPL`, call `(40ants-logging:setup-for-repl :l
 
 <a id="x-2840ANTS-LOGGING-3A-2AON-CHANGE-HOOKS-2A-20-28VARIABLE-29-29"></a>
 
-### [variable](d36c) `40ants-logging:*on-change-hooks*` nil
+### [variable](53a1) `40ants-logging:*on-change-hooks*` nil
 
 A list of callbacks invoked after a logging configuration change.
 
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-BACKEND-20FUNCTION-29"></a>
 
-### [function](5fd3) `40ants-logging:setup-for-backend` &key (level \*default-level\*) (filename nil) (layout :json)
+### [function](2e30) `40ants-logging:setup-for-backend` &key (level \*default-level\*) (filename nil) (layout :json)
 
 Configures `LOG4CL` for logging in `JSON` format.
 
@@ -165,13 +165,13 @@ you can set `DEBUG` level for it using `LOG4SLY`.
 
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-CLI-20FUNCTION-29"></a>
 
-### [function](944b) `40ants-logging:setup-for-cli` &key (level \*default-level\*)
+### [function](5483) `40ants-logging:setup-for-cli` &key (level \*default-level\*)
 
 Configures `LOG4CL` for logging in plain-text format with context fields support.
 
 <a id="x-2840ANTS-LOGGING-3ASETUP-FOR-REPL-20FUNCTION-29"></a>
 
-### [function](e67d) `40ants-logging:setup-for-repl` &key (level :debug) (stream \*debug-io\*)
+### [function](0fa0) `40ants-logging:setup-for-repl` &key (level :debug) (stream \*debug-io\*)
 
 Configures `LOG4CL` for logging in `REPL` when you connect to the running lisp image already configured as a backend or `CLI` application.
 
@@ -180,7 +180,7 @@ when your `SLY` connects to the image.
 
 <a id="x-2840ANTS-LOGGING-3AREMOVE-REPL-APPENDER-20FUNCTION-29"></a>
 
-### [function](8763) `40ants-logging:remove-repl-appender`
+### [function](b064) `40ants-logging:remove-repl-appender`
 
 Returns configuration the state as it was after [`setup-for-backend`][d0af] or [`setup-for-cli`][78f4] call.
 
@@ -197,11 +197,11 @@ when your `SLY` disconnects from the image.
 [04ac]: https://40ants.com/slynk/#x-28-23A-28-2812-29-20BASE-CHAR-20-2E-20-2240ants-slynk-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29
 [0aac]: https://github.com/40ants/logging
 [2779]: https://github.com/40ants/logging/actions
-[944b]: https://github.com/40ants/logging/blob/f896c7400ac7ddbbd69d32607042ddea433cce8e/src/core.lisp#L112
-[e67d]: https://github.com/40ants/logging/blob/f896c7400ac7ddbbd69d32607042ddea433cce8e/src/core.lisp#L140
-[8763]: https://github.com/40ants/logging/blob/f896c7400ac7ddbbd69d32607042ddea433cce8e/src/core.lisp#L168
-[d36c]: https://github.com/40ants/logging/blob/f896c7400ac7ddbbd69d32607042ddea433cce8e/src/core.lisp#L24
-[5fd3]: https://github.com/40ants/logging/blob/f896c7400ac7ddbbd69d32607042ddea433cce8e/src/core.lisp#L54
+[5483]: https://github.com/40ants/logging/blob/7ee3a05c9ce05d145ed6f986cabc092a8a87a4bb/src/core.lisp#L112
+[0fa0]: https://github.com/40ants/logging/blob/7ee3a05c9ce05d145ed6f986cabc092a8a87a4bb/src/core.lisp#L140
+[b064]: https://github.com/40ants/logging/blob/7ee3a05c9ce05d145ed6f986cabc092a8a87a4bb/src/core.lisp#L168
+[53a1]: https://github.com/40ants/logging/blob/7ee3a05c9ce05d145ed6f986cabc092a8a87a4bb/src/core.lisp#L24
+[2e30]: https://github.com/40ants/logging/blob/7ee3a05c9ce05d145ed6f986cabc092a8a87a4bb/src/core.lisp#L54
 [cd63]: https://github.com/40ants/logging/issues
 [07be]: https://quickdocs.org/global-vars
 [691c]: https://quickdocs.org/log4cl-extras
